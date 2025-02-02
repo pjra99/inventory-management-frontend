@@ -66,9 +66,9 @@ export default function SignUp() {
   };
 
   const route = useRouter();
-  useEffect(() => {
-    console.log(formFields);
-  }, [formFields]);
+  // useEffect(() => {
+  //   console.log(formFields);
+  // }, [formFields]);
   return (
     <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
       <div className="bg-primary sm:h-[calc(100%-30px)] h-[calc(100%-10px)] sm:w-[50%] w-[90%] sm:ml-[20px]">
@@ -77,7 +77,7 @@ export default function SignUp() {
           <header className="flex justify-center text-4xl  italic color-primaryText">
             Sign Up
           </header>
-          <p className="mt-3">or</p>
+          <p className="mt-3 mx-5">or</p>
           <section className="">
             <GoogleButton route="/signin" width="100%" />
           </section>
@@ -190,13 +190,13 @@ export default function SignUp() {
               />
             ) : (
               <BlackButton
-                onClick={() => {
-                  validate() ? setValidated(true) : null;
-                }}
                 // onClick={() => {
-                //   //for testing
-                //   setValidated(true);
+                //   validate() ? setValidated(true) : null;
                 // }}
+                onClick={() => {
+                  //for testing
+                  setValidated(true);
+                }}
                 text="Next"
               />
             )}

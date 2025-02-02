@@ -18,7 +18,7 @@ export default function RadioButtons({ name, values, onChange, value }) {
   return (
     <div>
       <p className="text-border">{name}</p>
-      <section className="flex justify-between mt-[10px] pr-[20%]">
+      <section className="lg:flex justify-between mt-[10px] pr-[20%]">
         {inputs}
       </section>
     </div>
