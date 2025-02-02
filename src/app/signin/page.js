@@ -2,6 +2,7 @@ import BlackButton from "@/components/buttons/BlackButton";
 import GoogleButton from "@/components/buttons/LoginWithGoogle";
 import InputField from "@/components/inputs/Input";
 import Margin from "@/components/Margin";
+import Link from "next/link";
 
 export default function SignUp() {
   return (
@@ -23,7 +24,12 @@ export default function SignUp() {
           <div className="mt-7">
             <InputField placeholder="Password" />
           </div>
-          <div className="text-center mt-2">Not registered yet? Sign Up!</div>
+          <div className="text-center mt-2 italic">
+            Not registered yet?{" "}
+            <Link href="/signup" className="text-link">
+              Sign Up!
+            </Link>
+          </div>
           <div className="w-full mt-10">
             <BlackButton route="/signin" text="Sign In" />
           </div>

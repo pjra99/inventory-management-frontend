@@ -5,7 +5,7 @@ export default function BlackButton(props) {
   const router = useRouter();
   return (
     <button
-      onClick={() => router.push(props.route)}
+      onClick={props.onClick}
       className="bg-secondary text-white px-4 py-2 rounded w-full h-full"
     >
       {props.text}
