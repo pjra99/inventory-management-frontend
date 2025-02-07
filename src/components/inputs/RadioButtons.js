@@ -1,8 +1,8 @@
 export default function RadioButtons({ name, values, onChange, value }) {
-  console.log(values);
+  // console.log(values);
   const inputs = values.map((value, index) => (
     <div key={index}>
-      <label for={name} key={index + 1} className="text-border font-bold">
+      <label htmlFor={name} key={index + 1} className="text-border font-bold">
         {value}
       </label>
       <input

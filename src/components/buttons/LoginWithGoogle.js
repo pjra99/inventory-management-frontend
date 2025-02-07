@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-export default function BlackButton(props) {
+export default function GoogleButton(props) {
   const router = useRouter();
   return (
     <button
