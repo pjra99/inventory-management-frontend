@@ -1,10 +1,23 @@
+"use client";
 import BlackButton from "@/components/buttons/BlackButton";
 import GoogleButton from "@/components/buttons/LoginWithGoogle";
 import InputField from "@/components/inputs/Input";
 import Margin from "@/components/Margin";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { apiCall } from "@/utils/apiCall";
+import { Authentication } from "@/utils/Authentication";
 
 export default function SignUp() {
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [registeredUsers, setRegisteredUsers] = useState([]);
+  const route = useRouter();
+
+  useEffect(() => {
+    apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
+  }, []);
   return (
     <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
       <div className="bg-primary sm:h-[calc(100%-30px)] h-[calc(100%-10px)] sm:w-[50%] w-[90%] sm:ml-[20px]">
@@ -19,10 +32,22 @@ export default function SignUp() {
         </div>
         <section className="form flex-col mt-10 mb-10 ml-[25%] items-center w-1/2">
           <div>
-            <InputField placeholder="Email" />
+            <InputField
+              placeholder="Email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              value={email}
+            />
           </div>
           <div className="mt-7">
-            <InputField placeholder="Password" />
+            <InputField
+              placeholder="Password"
+              onChange={(e) => {
+                setPass(e.target.value);
+              }}
+              value={pass}
+            />
           </div>
           <div className="text-center mt-2 italic">
             Not registered yet?{" "}
@@ -31,7 +56,14 @@ export default function SignUp() {
             </Link>
           </div>
           <div className="w-full mt-10">
-            <BlackButton route="/signin" text="Sign In" />
+            <BlackButton
+              onClick={() => {
+                Authentication(email, pass, registeredUsers)
+                  ? route.push("/home")
+                  : null;
+              }}
+              text="Sign In"
+            />
           </div>
         </section>
         {/* <BlackButton route="/signin" text="Sign In" /> */}

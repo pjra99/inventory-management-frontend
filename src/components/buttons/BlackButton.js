@@ -1,8 +1,4 @@
-"use client";
-import { useRouter } from "next/navigation";
-
 export default function BlackButton(props) {
-  const router = useRouter();
   return (
     <button
       onClick={props.onClick}
