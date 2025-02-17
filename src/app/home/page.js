@@ -1,7 +1,28 @@
 "use client";
 import { useEffect } from "react";
 import { apiCall } from "@/utils/apiCall";
+import Chart from "chart.js/auto";
 export default function Home() {
+  const myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      datasets: [
+        {
+          label: "# of Votes",
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
   useEffect(() => {
     try {
       apiCall("", "get", "http://127.0.0.1:5000/users", {});
@@ -29,7 +50,7 @@ export default function Home() {
             {/* value to be fetched from Api/db */}
             <p className="mt-2">10.16% more than last month</p>
           </div>
-          <div>Sales Chart</div>
+          <div>{myChart}</div>
           <div>
             <p className="text-xl">Average sale value</p>
             <p>205400.98 Rs</p> {/* value to be fetched from Api/db */}
@@ -42,9 +63,19 @@ export default function Home() {
           <div className="flex flex-col w-[49%] ml-[2%]">
             <div className="bg-white p-4">
               <p className="text-xl">Products list which require restock</p>
-              <p>205400.98 Rs</p> {/* value to be fetched from Api/db */}
-              <p className="text-xl mt-4">Recent Order</p>
-              <p>205400.98 Rs</p> {/* value to be fetched from Api/db */}
+              <ul>
+                <li>Biscuits</li>
+                <li>Namkeens</li>
+                <li>Milk Packets</li>
+              </ul>{" "}
+              {/* value to be fetched from Api/db */}
+              <p className="text-xl mt-4">Recent Orders</p>
+              <ul>
+                <li>Milk 20 lots</li>
+                <li>Eggs 23 lots</li>
+                <li>Agarbatti 50 lots</li>
+              </ul>
+              {/* value to be fetched from Api/db */}
             </div>
           </div>
         </div>
