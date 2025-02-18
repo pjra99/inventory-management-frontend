@@ -70,7 +70,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-secondary h-screen p-2 md:flex justify-between text-secondary">
+    <div className="bg-secondary p-2 md:flex justify-between text-secondary">
       <div className="left-section"></div>
       <div className="right-section md:w-[75%] h-[100%] bg-primary p-10">
         <div className="flex justify-between">
@@ -80,7 +80,7 @@ export default function Home() {
           <div className="md:mt-10">Filter</div>
           <div className="md:mt-10">Custom Date Filter</div>
         </div>
-        <div className="flex justify-between bg-white md:mt-10 md:p-6">
+        <div className="flex flex-wrap justify-between bg-white md:mt-10 md:p-6">
           <div>
             <p className="text-2xl font-bold">This month Sales</p>
             <p className="text-green-600 mt-4 text-xl font-light">
@@ -88,7 +88,7 @@ export default function Home() {
             </p>
             <p className="mt-2">10.16% more than last month</p>
           </div>
-          <div className="w-1/3">
+          <div className="md:w-1/3">
             <canvas ref={chartRef}></canvas>
           </div>
           <div>
