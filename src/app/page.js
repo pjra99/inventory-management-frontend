@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { apiCall } from "@/utils/apiCall";
 import Chart from "chart.js/auto";
+import Navigation from "@/components/Navigation";
 
 export default function Home() {
   const chartRef = useRef(null);
@@ -71,7 +72,9 @@ export default function Home() {
 
   return (
     <div className="bg-secondary p-2 md:flex justify-between text-secondary">
-      <div className="left-section"></div>
+      <div className="left-section">
+        <Navigation />
+      </div>
       <div className="right-section md:w-[75%] h-[100%] bg-primary p-10">
         <div className="flex justify-between">
           <div className="text-3xl w-[40%] font-bold pl-1">
