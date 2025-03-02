@@ -4,7 +4,7 @@ export default function BlackButton(props) {
       onClick={props.onClick}
       className="bg-secondary text-white px-4 py-2 rounded w-full h-full"
     >
-      {props.text}
+      {props.name}
     </button>
   );
 }

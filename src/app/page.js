@@ -1,13 +1,19 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { apiCall } from "@/utils/apiCall";
 import Chart from "chart.js/auto";
 import Navigation from "@/components/Navigation";
-
+import Main from "@/components/Main"
+import CatalogueComponent from "@/components/CatalogueComponent";
+import CustomersComponent from "@/components/CustomersComponent";
+import InventoryComponent from "@/components/InventoryComponent";
+import SellComponent from "@/components/SellComponent";
+import SetupComponent from "@/components/SetupComponent";
+import ReportingComponent from "@/components/ReportingComponent";
 export default function Home() {
   const chartRef = useRef(null);
   const chartRef2 = useRef(null);
-
+  const [selectedComponent, setSelectedComponent] = useState('Main')
   useEffect(() => {
     if (chartRef.current) {
       new Chart(chartRef.current, {
@@ -69,62 +75,31 @@ export default function Home() {
       console.log(e);
     }
   }, []);
-
+  const renderComponent = () => {
+    switch (selectedComponent) {
+      case "Sell":
+        return <SellComponent />;
+      case "Reporting":
+        return <ReportingComponent />;
+      case "Catalogue":
+        return <CatalogueComponent />;
+      case "Inventory":
+        return <InventoryComponent />;
+      case "Customers":
+        return <CustomersComponent />;
+      case "Setup":
+        return <SetupComponent />;
+      default:
+        return <Main />;
+    }
+  };
   return (
-    <div className="bg-secondary p-2 md:flex justify-between text-secondary">
+    <div className="bg-secondary p-2 md:flex justify-between text-secondary h-[100%]">
       <div className="left-section">
-        <Navigation />
+        <Navigation modifier ={setSelectedComponent} />
       </div>
-      <div className="right-section md:w-[75%] h-[100%] bg-primary p-10">
-        <div className="flex justify-between">
-          <div className="text-3xl w-[40%] font-bold pl-1">
-            Hi, have a look at your store’s insight
-          </div>
-          <div className="md:mt-10">Filter</div>
-          <div className="md:mt-10">Custom Date Filter</div>
-        </div>
-        <div className="flex flex-wrap justify-between bg-white md:mt-10 md:p-6">
-          <div>
-            <p className="text-2xl font-bold">This month Sales</p>
-            <p className="text-green-600 mt-4 text-xl font-light">
-              205400.98 Rs
-            </p>
-            <p className="mt-2">10.16% more than last month</p>
-          </div>
-          <div className="md:w-1/3">
-            <canvas ref={chartRef}></canvas>
-          </div>
-          <div>
-            <p className="text-xl">Average sale value</p>
-            <p>205400.98 Rs</p>
-            <p className="text-xl mt-4">Average profit per item</p>
-            <p>205400.98 Rs</p>
-          </div>
-        </div>
-        <div className="flex justify-center mt-6">
-          <div className="bg-white w-[49%] p-4">
-            <div className="h-[95%]">
-              <canvas ref={chartRef2}></canvas>
-            </div>
-          </div>
-          <div className="flex flex-col w-[49%] ml-[2%]">
-            <div className="bg-white p-4">
-              <p className="text-xl">Products list which require restock</p>
-              <ul>
-                <li>Biscuits</li>
-                <li>Namkeens</li>
-                <li>Milk Packets</li>
-              </ul>
-              <p className="text-xl mt-4">Recent Orders</p>
-              <ul>
-                <li>Milk 20 lots</li>
-                <li>Eggs 23 lots</li>
-                <li>Agarbatti 50 lots</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      
+     {renderComponent()}
     </div>
   );
 }

@@ -62,7 +62,7 @@ export default function SignUp() {
                   ? route.push("/home")
                   : null;
               }}
-              text="Sign In"
+              name="Sign In"
             />
           </div>
         </section>

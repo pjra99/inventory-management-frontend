@@ -156,7 +156,7 @@ export default function SignUp() {
                     route.push("/home");
                   } else alert("Error registering User");
                 }}
-                text="Sign Up!"
+                name="Sign Up!"
               />
             ) : (
               <BlackButton
@@ -169,7 +169,7 @@ export default function SignUp() {
                 //   //for testing
                 //   setValidated(true);
                 // }}
-                text="Next"
+                name="Next"
               />
             )}
           </div>
