@@ -6,9 +6,20 @@ import RadioButtons from "./inputs/RadioButtons"
 
 export default function SellComponent(){
 const [userTypeNew, setUserTypeNew] = useState(true)
+const [orderDetails, order_Details] = useState({
+    product_category:"",
+    product_name:"",
+    quantity_type_stock: true,
+    product_quantity :userTypeNew,
+    customer_type_new: true,
+    customer_id: "",
+    customer_name:"",
+    customer_address:"",
+    customer_contact:"",
+    customer_email:""
+})
 let pro_catg = [
-    "Grocery",
-    "Utensil", "Toys", "Dairy", "Furniture"
+    "Grocery","Utensil", "Toys", "Dairy", "Furniture"
     ]
     return (
 <div className="right-section md:w-[75%] h-screen bg-primary p-10">
@@ -31,8 +42,15 @@ let pro_catg = [
 <div className ="Customer-details/Total-Amount flex flex-wrap justify-between">
 <div className="customer-details">
 <div className="mb-5"><span className={`border-2 border-gray p-2 ${userTypeNew? `bg-transparent`: `bg-secondary text-white`}`} onClick={()=>setUserTypeNew(false)}>Existing Customer</span><span className={`border-2 border-gray p-2 ${userTypeNew? `bg-secondary text-white`:`bg-transparent`}`} onClick={()=>setUserTypeNew(true)}>New Customer</span></div>
-<div className ="my-5"><Input type="text" placeholder="Enter Customer Id" /></div>
-<div className=""><BlackButton name="Create an Order" /></div>
+{!userTypeNew?<div className ="my-5">
+<Input type="text" placeholder="Enter Customer Id" value={orderDetails['customer_id']}/></div>:
+<div className ="my-5"><Input type="text" placeholder="Enter Customer Name" onChange={()=>{
+    setUserTypeNew(prevState=>({
+        ...prevState,
+        customer_name: e.target.value
+    }))
+}} value={orderDetails['customer_name']} /> <Input type="text" placeholder="Enter Shipping Address" className="mt-5" value={orderDetails['customer_address']}/></div>}
+<div className=""><BlackButton name={`${userTypeNew &&(orderDetails['customer_name']!="" && orderDetails["customer_address"]!="") ? "Next":"Create an Order"}`}/></div>
 </div>
 <div className="total-amount"></div>
 </div>

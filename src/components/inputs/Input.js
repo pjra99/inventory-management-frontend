@@ -1,11 +1,11 @@
-export default function InputField(props) {
+export default function InputField({type, placeholder, value, onChange, className}) {
   return (
     <input
-      type={props.type}
-      placeholder={props.placeholder}
-      value={props.value}
-      onChange={props.onChange}
-      className="border-[1px] bg-transparent h-10 pl-4 w-full"
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      className={`border-[1px] bg-transparent h-10 pl-4 w-full ${className}`}
     />
   );
 }
