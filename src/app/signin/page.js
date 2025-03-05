@@ -10,14 +10,16 @@ import { apiCall } from "@/utils/apiCall";
 import { Authentication } from "@/utils/Authentication";
 
 export default function SignUp() {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [userCredentials, setUserCredentials] = useState({
+    "email":"",
+    "password":""
+  })
   const [registeredUsers, setRegisteredUsers] = useState([]);
   const route = useRouter();
 
-  useEffect(() => {
-    apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
-  }, []);
+  // useEffect(() => {
+  //   apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
+  // }, []);
   return (
     <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
       <div className="bg-primary sm:h-[calc(100%-30px)] h-[calc(100%-10px)] sm:w-[50%] w-[90%] sm:ml-[20px]">
@@ -35,18 +37,24 @@ export default function SignUp() {
             <InputField
               placeholder="Email"
               onChange={(e) => {
-                setEmail(e.target.value);
+                setUserCredentials(prevState=>({
+                  ...prevState,
+                  "email":e.target.value
+                }))
               }}
-              value={email}
+              value={userCredentials["email"]}
             />
           </div>
           <div className="mt-7">
             <InputField
               placeholder="Password"
               onChange={(e) => {
-                setPass(e.target.value);
+                setUserCredentials(prevState=>({
+                  ...prevState,
+                  "password":e.target.value
+                }))
               }}
-              value={pass}
+              value={userCredentials["password"]}
             />
           </div>
           <div className="text-center mt-2 italic">
@@ -58,8 +66,8 @@ export default function SignUp() {
           <div className="w-full mt-10">
             <BlackButton
               onClick={() => {
-                Authentication(email, pass, registeredUsers)
-                  ? route.push("/home")
+                jsonResponse = apiCall(userCredentials, "POST", "http://127.0.0.1:5000/users/authentication")
+                 !("Error:" in jsonResponse)? route.push("/home")
                   : null;
               }}
               name="Sign In"

@@ -24,9 +24,9 @@ export default function SignUp() {
   });
 
   const route = useRouter();
-  useEffect(() => {
-    apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
-  }, []);
+  // useEffect(() => {
+  //   apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
+  // }, []);
 
   return (
     <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
@@ -144,17 +144,20 @@ export default function SignUp() {
               <BlackButton
                 onClick={() => {
                   if (
-                    validate(formFields, validated, registeredUsers) == true &&
-                    apiCall(
+                    validate(formFields, validated) == true
+                  ) {
+                    jsonResponse = apiCall(
                       formFields,
                       "post",
                       "http://127.0.0.1:5000/users",
-                      setRegisteredUsers
-                    )
-                  ) {
+                      ''
+                    )}
+                   if ("Error:" in jsonResponse)
+                      alert("Error registering User");
+                   else {
                     alert("Success!");
                     route.push("/home");
-                  } else alert("Error registering User");
+                    } 
                 }}
                 name="Sign Up!"
               />

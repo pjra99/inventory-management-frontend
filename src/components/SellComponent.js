@@ -3,10 +3,13 @@ import BlackButton from "./buttons/BlackButton"
 import DropdownButton from "./inputs/DropDownButton"
 import Input from "./inputs/Input"
 import RadioButtons from "./inputs/RadioButtons"
+import {ShoppingCart} from "lucide-react"
+import ShoppingCartComponent from "./ShoppingCartComponent"
 
 export default function SellComponent(){
 const [userTypeNew, setUserTypeNew] = useState(true)
 const [showEmail, setShowEmail] = useState(false)
+const [showCartComponent, setShowCartComponent] = useState(false)
 const [orderDetails, setOrderDetails] = useState({
     product_category:"",
     product_name:"",
@@ -22,9 +25,9 @@ const [orderDetails, setOrderDetails] = useState({
 let pro_catg = [
     "Grocery","Utensil", "Toys", "Dairy", "Furniture"
     ]
-    return (
+    return showCartComponent?<ShoppingCartComponent modifier={setShowCartComponent}/>: (        
 <div className="right-section md:w-[75%] h-screen bg-primary p-10">
-<div className="text-3xl">Create an Order</div>
+<div className="flex flex-wrap justify-between"><div className="text-3xl">Create an Order</div><button><ShoppingCart onClick={()=>{setShowCartComponent(true)}} /></button></div>
 <div className="bg-white mt-10  p-10">
 <div className ="Product-details flex justify-between">
 <div>
@@ -96,7 +99,14 @@ value={orderDetails['customer_address']}
 }  name={`${!showEmail && userTypeNew ? "Next":"Create an Order"}`}/>
 </div>
 </div>
-<div className="total-amount"></div>
+<div className="total-amount flex flex-col justify-between">
+    <div>Go to the Inventory to add more items to create order
+    </div>
+    <BlackButton name="Go to the inventory" className="h-[40px]" />
+    <BlackButton name="Proceed to checkout" onClick={()=>{
+        setShowCartComponent(true)
+    }} className="h-[40px]"/>
+</div>
 </div>
 </div>
 </div>

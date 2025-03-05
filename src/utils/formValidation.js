@@ -1,6 +1,6 @@
 import { ZCOOL_KuaiLe } from "next/font/google";
 
-export const validate = (formFields, validated, registeredUsers) => {
+export const validate = (formFields, validated) => {
   if (validated) {
     if (formFields.orgName.length === 0 || formFields.orgType.length === 0) {
       alert("Please fill in all fields");
@@ -40,15 +40,15 @@ export const validate = (formFields, validated, registeredUsers) => {
       return false;
     }
   }
-  const registeredUsers_ = registeredUsers.users;
-  console.log("Agya yaha tlk" + registeredUsers_);
-  for (let i = 0; i < registeredUsers_.length; i++) {
-    console.log("1" + registeredUsers_[i]["email"]);
-    if (registeredUsers_[i]["email"] == formFields.email) {
-      alert("User already Exist");
-      return false;
-    }
-  }
-  console.log(registeredUsers_);
+  // const registeredUsers_ = registeredUsers.users;
+  // console.log("Agya yaha tlk" + registeredUsers_);
+  // for (let i = 0; i < registeredUsers_.length; i++) {
+  //   console.log("1" + registeredUsers_[i]["email"]);
+  //   if (registeredUsers_[i]["email"] == formFields.email) {
+  //     alert("User already Exist");
+  //     return false;
+  //   }
+  // }
+  // console.log(registeredUsers_);
   return true;
 };

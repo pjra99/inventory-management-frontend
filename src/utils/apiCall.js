@@ -1,7 +1,7 @@
 export const apiCall = async (data, method, url, Modifier) => {
   try {
     const response = await fetch(url, {
-      method: method,
+      method: method.toUpperCase(),
       headers: {
         "Content-Type": "application/json",
       },
@@ -11,9 +11,9 @@ export const apiCall = async (data, method, url, Modifier) => {
     const data_ = await response.json();
     Modifier(data_);
     console.log(data_);
-    return data;
+    return data_;
   } catch (error) {
     console.error("Error:", error);
-    return null;
+    return {"Error:": error.message};
   }
 };

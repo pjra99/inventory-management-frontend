@@ -62,12 +62,7 @@ export default function Main(){
           },
         });
       }
-  
-      try {
-        apiCall("", "get", "http://127.0.0.1:5000/users", {});
-      } catch (e) {
-        console.log(e);
-      }
+
     }, []);
     return   <div className="right-section md:w-[75%] h-[100%] bg-primary p-10">
         <div className="flex justify-between">
