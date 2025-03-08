@@ -24,7 +24,7 @@ export default function CatalogueComponent(){
             </div>
           ))
         ) : (
-          <Loading />
+          <Loading title="Products"/>
         )}
 
         </div>}</div> 

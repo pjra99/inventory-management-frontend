@@ -5,7 +5,8 @@ export default function InputField({type, placeholder, value, onChange, classNam
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={`border-[1px] bg-transparent h-10 pl-4 w-full ${className}`}
+      min="0"
+      className={`border-[1px] bg-transparent h-10 pl-4 ${className}`}
     />
   );
 }

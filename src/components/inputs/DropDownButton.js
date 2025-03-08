@@ -3,10 +3,11 @@ export default function DropdownButton({
   onChange,
   options,
   value,
+  className
 }) {
   return (
     <select
-      className="border-[1px] bg-transparent h-10 pl-4 w-full"
+      className={`border-[1px] bg-transparent h-10 pl-4  ${className}`}
       value={value}
       onChange={onChange}
     >
@@ -15,7 +16,7 @@ export default function DropdownButton({
       </option>
       {options.map((option, index) => (
         <option key={index} value={option}>
-          {option}
+          {option[0].toUpperCase()+option.substring(1)}
         </option>
       ))}
     </select>

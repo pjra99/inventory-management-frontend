@@ -21,7 +21,7 @@ export default function CustomersComponent(){
         <div className="w-[15%]">{key.firstName+" "+key.lastName}</div>
         <div className="w-[8%] pl-1">{key.age}</div>
         <div className="w-[33%]">{key.address.address+' ' + key.address.city+ ','+key.address.state}</div>
-        <div className="w-[27%]">{key.email}</div>
-        <div className="w-[17%] flex flex-right">{key.phone}</div></div>)): <Loading />}
+        <div className="w-[27%] break-all">{key.email}</div>
+        <div className="w-[17%] flex flex-right">{key.phone}</div></div>)): <Loading title="Customers" />}
      </div>
 }

@@ -75,6 +75,7 @@ let pro_catg = [
         customer_name: e.target.value
     }))
 }} value={orderDetails['customer_name']} />
+<br />
  <Input type="text" placeholder="Enter Shipping Address" className="mt-5" onChange={(e)=>{
     setOrderDetails(prevState =>({
         ...prevState,
