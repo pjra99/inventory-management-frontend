@@ -50,7 +50,7 @@ export default function InventoryComponent(){
             }))
         }}
         className="w-[7em] border-none"
-        options ={["price", "selling-price"]    }
+        options ={["Asc", "Desc"]    }
         value ={filters["sortingType"]}
         
          /> <DropdownButton placeholder="Column Name" onChange={(e)=>{
@@ -59,7 +59,7 @@ export default function InventoryComponent(){
                 "sortingCol": e.target.value
             }))
         }}
-        className=" border-none"
+        className="w-[10em] bg-white"
         options ={["price", "selling-price", "discount", "min-lot-size", "avl-stocks"]    }
         value ={filters["sortingCol"]} /></p>
     </div>

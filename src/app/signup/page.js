@@ -17,9 +17,9 @@ export default function SignUp() {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    orgName: "",
-    orgType: "",
+    confirm_password: "",
+    org_name: "",
+    org_type: "",
     role: "",
   });
 
@@ -49,10 +49,10 @@ export default function SignUp() {
                 onChange={(e) =>
                   setFormFields((prevFields) => ({
                     ...prevFields,
-                    orgName: e.target.value,
+                    org_name: e.target.value,
                   }))
                 }
-                value={formFields.orgName}
+                value={formFields.org_name}
               />
             ) : (
               <InputField
@@ -74,11 +74,11 @@ export default function SignUp() {
                 onChange={(e) =>
                   setFormFields((prevFields) => ({
                     ...prevFields,
-                    orgType: e.target.value,
+                    org_type: e.target.value,
                   }))
                 }
                 options={["Retail", "Service", "Manufacturing"]} // Example array of options
-                value={formFields.orgType}
+                value={formFields.org_type}
               />
             ) : (
               <InputField
@@ -126,10 +126,10 @@ export default function SignUp() {
                 onChange={(e) =>
                   setFormFields((prevFields) => ({
                     ...prevFields,
-                    confirmPassword: e.target.value,
+                    confirm_password: e.target.value,
                   }))
                 }
-                value={formFields.confirmPassword}
+                value={formFields.confirm_password}
               />
             )}
           </div>
