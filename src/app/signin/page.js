@@ -14,16 +14,11 @@ export default function SignUp() {
     "email":"",
     "password":""
   })
-  const [registeredUsers, setRegisteredUsers] = useState([]);
   const route = useRouter();
-
-  // useEffect(() => {
-  //   apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
-  // }, []);
   return (
     <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
       <div className="bg-primary sm:h-[calc(100%-30px)] h-[calc(100%-10px)] sm:w-[50%] w-[90%] sm:ml-[20px]">
-        <header className="flex justify-center text-4xl my-20 italic color-primaryText">
+        <header className="flex justify-center text-4xl my-20 italic text-primaryText">
           Sign In
         </header>
         <section className="flex justify-center">
@@ -42,6 +37,7 @@ export default function SignUp() {
                   "email":e.target.value
                 }))
               }}
+              className="w-[100%] text-primaryText"
               value={userCredentials["email"]}
             />
           </div>
@@ -54,10 +50,11 @@ export default function SignUp() {
                   "password":e.target.value
                 }))
               }}
+              className="w-[100%] text-primaryText"
               value={userCredentials["password"]}
             />
           </div>
-          <div className="text-center mt-2 italic">
+          <div className="text-center text-primaryText mt-2 italic">
             Not registered yet?{" "}
             <Link href="/signup" className="text-link">
               Sign Up!
@@ -65,12 +62,12 @@ export default function SignUp() {
           </div>
           <div className="w-full mt-10">
             <BlackButton
-              onClick={() => {
-                jsonResponse = apiCall(userCredentials, "POST", "http://127.0.0.1:5000/users/authentication")
-                 !("Error:" in jsonResponse)? route.push("/home")
-                  : null;
+              onClick={async () => {
+                let response = await apiCall("", "GET", `http://127.0.0.1:5000/users/${userCredentials.email}/${userCredentials.password}`)
+                 response && response.authenticated? route.push("/home"):alert("Invalid Credentials")
               }}
               name="Sign In"
+              className="w-full"
             />
           </div>
         </section>

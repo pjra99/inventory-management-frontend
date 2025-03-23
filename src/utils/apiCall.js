@@ -9,7 +9,7 @@ export const apiCall = async (data, method, url, Modifier) => {
     });
 
     const data_ = await response.json();
-    Modifier(data_);
+    Modifier?Modifier(data_):"";
     console.log(data_);
     return data_;
   } catch (error) {
