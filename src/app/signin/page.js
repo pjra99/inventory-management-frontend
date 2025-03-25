@@ -64,7 +64,7 @@ export default function SignUp() {
             <BlackButton
               onClick={async () => {
                 let response = await apiCall("", "GET", `http://127.0.0.1:5000/users/${userCredentials.email}/${userCredentials.password}`)
-                localStorage.setItem("org_id",response.user_id)
+                localStorage.setItem("org_id",response.org_id)
                  response && response.authenticated? route.push("/home"):alert("Invalid Credentials")
               }}
               name="Sign In"

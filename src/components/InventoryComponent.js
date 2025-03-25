@@ -17,7 +17,8 @@ export default function InventoryComponent(){
     })
     useEffect(()=>{ 
         const org_id = localStorage.getItem("org_id")
-        apiCall('', 'GET', `http://127.0.0.1:5000/${org_id}/product`,setProducts)
+        console.log(org_id)
+        apiCall('', 'GET', `http://127.0.0.1:5000/${org_id}/products`,setProducts)
     },[])
     const getProJson = ()=>{
         let temp = []
