@@ -10,6 +10,7 @@ import DropdownButton from "@/components/inputs/DropDownButton";
 import RadioButtons from "@/components/inputs/RadioButtons";
 import { validate } from "@/utils/formValidation";
 import { apiCall } from "@/utils/apiCall";
+import { X } from "lucide-react";
 export default function SignUp() {
   const [validated, setValidated] = useState(false);
   // const [registeredUsers, setRegisteredUsers] = useState([]);
@@ -27,7 +28,12 @@ export default function SignUp() {
   // useEffect(() => {
   //   apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
   // }, []);
+  const  updateSetValidated = async() =>{
+    // e.preventDefault()
+    await validate( formFields, validated)? setValidated(true)
+    : null;
 
+  }
   return (
     <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
       <div className="bg-primary sm:h-[calc(100%-30px)] h-[calc(100%-10px)] sm:w-[50%] w-[90%] sm:ml-[20px]">
@@ -176,12 +182,11 @@ export default function SignUp() {
               />
             ) : (
               <BlackButton
-                onClick={() => {
-                  validate(formFields, validated)
-                    ? setValidated(true)
-                    : null;
-                }}
-
+              type="button"
+                onClick={
+                  updateSetValidated
+              }
+                
                 name="Next"
               />
             )}

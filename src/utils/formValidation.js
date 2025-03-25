@@ -1,25 +1,13 @@
 import { apiCall } from "./apiCall";
 
-export const validate =(formFields, validated) => {
+export const validate =async ( formFields, validated) => {
   if (validated) {
-    // try {
-    //   const response = await apiCall("", "POST", `/users/${formFields.email }`);
-    //   console.log(response)
-    //   if (response?.emailRegistered) {
-    //     alert("Email already registered");  
-    //     return false;
-    //   }
-    // } catch (error) {
-    //   console.error("API call failed:", error);
-    //   alert("Error checking email registration");
-    //   return false;
-    // }
-
     if (!formFields.org_name.trim() || !formFields.org_type.trim()) {
       alert("Please fill in all fields");
       return false;
     }
   } else {
+    console.log(formFields)
     if (
       !formFields.name.trim() ||
       !formFields.email.trim() ||
@@ -44,7 +32,7 @@ export const validate =(formFields, validated) => {
       alert("Please enter a valid email");
       return false;
     }
-
+   
     if (formFields.password.length < 6) {
       alert("Password must be at least 6 characters long");
       return false;
@@ -52,6 +40,19 @@ export const validate =(formFields, validated) => {
 
     if (formFields.confirm_password !== formFields.password) {
       alert("Password doesn't match");
+      return false;
+    }
+    try {
+      console.log(formFields.email)
+      const response = await apiCall("", "GET", `http://127.0.0.1:5000/users/${formFields.email}`);
+      console.log(response)
+      if (response?.emailRegistered) {
+        alert("Email already registered");  
+        return false;
+      }
+    } catch (error) {
+      console.error("API call failed:", error);
+      alert("Error checking email registration");
       return false;
     }
   }
