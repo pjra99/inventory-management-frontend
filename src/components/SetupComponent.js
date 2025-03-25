@@ -1,3 +1,8 @@
+import { useRouter } from "next/navigation";
 export default function SetupComponent(){
-    return<div>Set Up component</div>
+const route = useRouter()
+    return<div className="text-white"><button onClick={()=>{
+        localStorage.clear();
+        route.push('/signin')
+    }}>Log out</button></div>
 }

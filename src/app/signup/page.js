@@ -12,7 +12,7 @@ import { validate } from "@/utils/formValidation";
 import { apiCall } from "@/utils/apiCall";
 export default function SignUp() {
   const [validated, setValidated] = useState(false);
-  const [registeredUsers, setRegisteredUsers] = useState([]);
+  // const [registeredUsers, setRegisteredUsers] = useState([]);
   const [formFields, setFormFields] = useState({
     name: "",
     email: "",
@@ -53,6 +53,8 @@ export default function SignUp() {
                   }))
                 }
                 value={formFields.org_name}
+                 className="text-primaryText"
+                 type="text"
               />
             ) : (
               <InputField
@@ -64,6 +66,8 @@ export default function SignUp() {
                   }))
                 }
                 value={formFields.name}
+                className="text-primaryText"
+                type="text"
               />
             )}
           </div>
@@ -79,6 +83,7 @@ export default function SignUp() {
                 }
                 options={["Retail", "Service", "Manufacturing"]} // Example array of options
                 value={formFields.org_type}
+                type="text"
               />
             ) : (
               <InputField
@@ -88,8 +93,11 @@ export default function SignUp() {
                     ...prevFields,
                     email: e.target.value,
                   }))
+                  
                 }
+                 className="text-primaryText"
                 value={formFields.email}
+                type="text"
               />
             )}
           </div>
@@ -105,6 +113,7 @@ export default function SignUp() {
                   }))
                 }
                 value={formFields.role}
+                type="text"
               />
             ) : (
               <InputField
@@ -115,7 +124,9 @@ export default function SignUp() {
                     password: e.target.value,
                   }))
                 }
+                 className="text-primaryText"
                 value={formFields.password}
+                type="text"
               />
             )}
           </div>
@@ -129,7 +140,9 @@ export default function SignUp() {
                     confirm_password: e.target.value,
                   }))
                 }
+                 className="text-primaryText"
                 value={formFields.confirm_password}
+                type="text"
               />
             )}
           </div>
@@ -144,7 +157,7 @@ export default function SignUp() {
               <BlackButton
                 onClick={() => {
                   if (
-                    validate(formFields, validated) == true
+                    validate(formFields, validated) 
                   ) {
                     jsonResponse = apiCall(
                       formFields,
@@ -164,14 +177,11 @@ export default function SignUp() {
             ) : (
               <BlackButton
                 onClick={() => {
-                  validate(formFields, validated, registeredUsers)
+                  validate(formFields, validated)
                     ? setValidated(true)
                     : null;
                 }}
-                // onClick={() => {
-                //   //for testing
-                //   setValidated(true);
-                // }}
+
                 name="Next"
               />
             )}

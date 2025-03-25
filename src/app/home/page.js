@@ -11,70 +11,91 @@ import SellComponent from "@/components/SellComponent";
 import SetupComponent from "@/components/SetupComponent";
 import ReportingComponent from "@/components/ReportingComponent";
 export default function Home() {
-  const chartRef = useRef(null);
-  const chartRef2 = useRef(null);
-  const [selectedComponent, setSelectedComponent] = useState('Main')
-  useEffect(() => {
-    if (chartRef.current) {
-      new Chart(chartRef.current, {
-        type: "line",
-        data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          datasets: [
-            {
-              label: "# of Votes",
-              data: [12, 19, 3, 5, 2, 3],
-              borderWidth: 1,
-              fill: false,
-              borderColor: "rgb(75, 192, 192)",
-              tension: 0.1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-    }
+    // const chartRef = useRef(null);
+    // const chartRef2 = useRef(null);
+    // const chartInstance1 = useRef(null);
+    // const chartInstance2 = useRef(null);
+    const [selectedComponent, setSelectedComponent] = useState("Main");
+  
+//     useEffect(() => {
+//       // Function to initialize a chart
+//       const initializeChart = (chartRef, chartInstance, config) => {
+//         if (chartRef.current) {
+//           // Destroy the existing chart instance if it exists
+//           if (chartInstance.current) {
+//             chartInstance.current.destroy();
+//           }
+//           chartInstance.current = new Chart(chartRef.current, config);
+//         }
+//       };
+  
+//       // Line chart for the first canvas
+//       initializeChart(chartRef, chartInstance1, {
+//         type: "line",
+//         data: {
+//           labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+//           datasets: [
+//             {
+//               label: "# of Votes",
+//               data: [12, 19, 3, 5, 2, 3],
+//               borderWidth: 1,
+//               fill: false,
+//               borderColor: "rgb(75, 192, 192)",
+//               tension: 0.1,
+//             },
+//           ],
+//         },
+//         options: {
+//           responsive: true,
+//           maintainAspectRatio: false,
+//           scales: {
+//             y: {
+//               beginAtZero: true,
+//             },
+//           },
+//         },
+//       });
+  
+//       // Line chart for the second canvas
+//       initializeChart(chartRef2, chartInstance2, {
+//         type: "line",
+//         data: {
+//           labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+//           datasets: [
+//             {
+//               label: "Profit Report with Chart",
+//               data: [3000, 4500, 3200, 6000, 5000, 7000],
+//               borderWidth: 1,
+//               fill: false,
+//               borderColor: "rgb(255, 99, 132)",
+//               tension: 0.1,
+//             },
+//           ],
+//         },
+//         options: {
+//           responsive: true,
+//           maintainAspectRatio: false,
+//           scales: {
+//             y: {
+//               beginAtZero: true,
+//             },
+//           },
+//         },
+//       });
+  
+//       // Cleanup function to destroy charts when component unmounts
+//       return () => {
+//         if (chartInstance1.current) {
+//           chartInstance1.current.destroy();
+//           chartInstance1.current = null;
+//         }
+//         if (chartInstance2.current) {
+//           chartInstance2.current.destroy();
+//           chartInstance2.current = null;
+//         }
+//       };
+//     }, []);
 
-    if (chartRef2.current) {
-      new Chart(chartRef2.current, {
-        type: "line",
-        data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-          datasets: [
-            {
-              label: "Profit Report with Chart",
-              data: [3000, 4500, 3200, 6000, 5000, 7000],
-              borderWidth: 1,
-              fill: false,
-              borderColor: "rgb(255, 99, 132)",
-              tension: 0.1,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-    }
-
-    // try {
-    //   apiCall("", "get", "http://127.0.0.1:5000/users", {});
-    // } catch (e) {
-    //   console.log(e);
-    // }
-  }, []);
   const renderComponent = () => {
     switch (selectedComponent) {
       case "Sell":

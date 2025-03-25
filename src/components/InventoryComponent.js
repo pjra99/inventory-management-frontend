@@ -15,8 +15,9 @@ export default function InventoryComponent(){
         "sortingType": "",
         "sortingCol":""
     })
-    useEffect(()=>{
-        apiCall('', 'GET', 'http://127.0.0.1:5000/100/products', setProducts)
+    useEffect(()=>{ 
+        const org_id = localStorage.getItem("org_id")
+        apiCall('', 'GET', `http://127.0.0.1:5000/${org_id}/product`,setProducts)
     },[])
     const getProJson = ()=>{
         let temp = []
