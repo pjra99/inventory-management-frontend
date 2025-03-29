@@ -29,10 +29,15 @@ export default function InventoryComponent(){
     },[filters.category])
 
     useEffect(()=>{
-    productsBkp? setProductsBkp(products):none
-    if (productsBkp.length > 0) {
-        let temp = [...productsBkp];
+        if (products.length > 0 && productsBkp.length === 0) {
+            setProductsBkp(products);
+        }
+    }, [products])
 
+    useEffect(()=>{
+    console.log(productsBkp)
+        let temp = [...productsBkp];     
+        
         if (filters.rangeCol) {
             temp = temp.filter(item => {
                 let value = item[filters.rangeCol];
@@ -58,7 +63,6 @@ export default function InventoryComponent(){
         }
 
         setProducts(temp);
-    }
     // console.log(temp0)
     console.log(filters)
     },[filters])
@@ -93,12 +97,12 @@ export default function InventoryComponent(){
          /> <InputField onChange={(e)=>{
             setFilters(prevState=>({
                 ...prevState,
-                "range1": parseInt(e.target.value)
+                "range1": e.target.value ? parseInt(e.target.value) : 0
             }))
          }} placeholder="Start Range" type="number" className="w-[8em]"/> to <InputField onChange={(e)=>{
             setFilters(prevState=>({
                 ...prevState,
-                "range2": parseInt(e.target.value)
+                "range2": e.target.value ? parseInt(e.target.value) : 0
             }))
          }} placeholder="End Range" type="number" className="w-[8em]"/></p>
          <p className="w-[30%]"><DropdownButton placeholder="Sort Type" onChange={(e)=>{
