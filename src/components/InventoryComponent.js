@@ -4,10 +4,12 @@ import Loading from "./Loading"
 import DropdownButton from "./inputs/DropDownButton"
 import InputField from "./inputs/Input"
 import {sort} from "@/utils/sorting"
+import { setRange } from "@/utils/setRange"
 
 export default function InventoryComponent(){
     const [products, setProducts] = useState([])
     const [categories, setCategories]  = useState([])
+    const [productsBkp, setProductsBkp] = useState([])
     const [filters, setFilters] = useState({
         "category": "",
         "rangeCol":"",
@@ -27,17 +29,38 @@ export default function InventoryComponent(){
     },[filters.category])
 
     useEffect(()=>{
-    if(filters.sortingType!="" && filters.sortingCol!=""){
-        console.log(filters.sortingCol)
-        console.log(filters.sortingType)
-        let temp0 = [...products]
-        let temp =filters.sortingCol=="availability"?sort(temp0, filters.sortingCol, "min_lot_size"):sort(temp0, filters.sortingCol)
-        setProducts(filters.sortingType=="desc"? temp.reverse():temp)
-        for(let i=0; i<products.length; i++){
-            console.log(products[i][filters.sortingCol])
-        }
+    productsBkp? setProductsBkp(products):none
+    if (productsBkp.length > 0) {
+        let temp = [...productsBkp];
+
+        if (filters.rangeCol) {
+            temp = temp.filter(item => {
+                let value = item[filters.rangeCol];
+                if (filters.range1 && filters.range2) {
+                    return value >= filters.range1 && value <= filters.range2;
+                } else if (filters.range1) {
+                    return value >= filters.range1;
+                } else if (filters.range2) {
+                    return value <= filters.range2;
+                }
+                return true;
+            });
         }
 
+        if (filters.sortingType && filters.sortingCol) {
+            temp = filters.sortingCol === "availability"
+                ? sort([...temp], filters.sortingCol, "min_lot_size")
+                : sort([...temp], filters.sortingCol);
+
+            if (filters.sortingType === "desc") {
+                temp.reverse();
+            }
+        }
+
+        setProducts(temp);
+    }
+    // console.log(temp0)
+    console.log(filters)
     },[filters])
 
     
@@ -65,6 +88,7 @@ export default function InventoryComponent(){
         className="ml-2 border-none"
         options ={["price", "selling-price"]    }
         value ={filters["rangeCol"]}
+        values={["cost_price", "selling_price"]}
         
          /> <InputField onChange={(e)=>{
             setFilters(prevState=>({
