@@ -1,9 +1,10 @@
 export default function DropdownButton({
   placeholder,
   onChange,
+  className,
   options,
   value,
-  className
+  values
 }) {
   return (
     <select
@@ -15,7 +16,7 @@ export default function DropdownButton({
         {placeholder}
       </option>
       {options?.map((option, index) => (
-        <option key={index} value={option}>
+        <option key={index} value={values? values[index]:option}>
           {option[0].toUpperCase()+option.substring(1)}
         </option>
       ))}

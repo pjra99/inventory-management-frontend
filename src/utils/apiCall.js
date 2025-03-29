@@ -10,10 +10,10 @@ export const apiCall = async (data, method, url, Modifier) => {
 
     const data_ = await response.json();
     Modifier?Modifier(data_):"";
-    console.log(data_);
+    // console.log(data_);
     return data_;
   } catch (error) {
-    console.error("Error:", error);
+    // console.error("Error:", error);
     return {"Error:": error.message};
   }
 };

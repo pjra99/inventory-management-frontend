@@ -3,6 +3,7 @@ import { apiCall } from "@/utils/apiCall"
 import Loading from "./Loading"
 import DropdownButton from "./inputs/DropDownButton"
 import InputField from "./inputs/Input"
+import {sort} from "@/utils/sorting"
 
 export default function InventoryComponent(){
     const [products, setProducts] = useState([])
@@ -10,21 +11,36 @@ export default function InventoryComponent(){
     const [filters, setFilters] = useState({
         "category": "",
         "rangeCol":"",
-        "range1":-1,
-        "range2":-1,
+        "range1":0,
+        "range2":0,
         "sortingType": "",
         "sortingCol":""
     })
     useEffect(()=>{ 
         const org_id = localStorage.getItem("org_id")
-        console.log(org_id)
+        // console.log(org_id)
         let url = (filters.category.length!="all" &&filters.category.length>0)?`http://127.0.0.1:5000/${org_id}/products/${filters.category}`:`http://127.0.0.1:5000/${org_id}/products`
         apiCall('', 'GET', url, setProducts)
         apiCall('', "GET", `http://127.0.0.1:5000/${org_id}/get_product_categories`, setCategories)
-        // setCategories([...categories, "all"])
-        console.log(filters)
-        console.log(categories)
+        // console.log(filters)
+        // console.log(categories)
+    },[filters.category])
+
+    useEffect(()=>{
+    if(filters.sortingType!="" && filters.sortingCol!=""){
+        console.log(filters.sortingCol)
+        console.log(filters.sortingType)
+        let temp0 = [...products]
+        let temp =filters.sortingCol=="availability"?sort(temp0, filters.sortingCol, "min_lot_size"):sort(temp0, filters.sortingCol)
+        setProducts(filters.sortingType=="desc"? temp.reverse():temp)
+        for(let i=0; i<products.length; i++){
+            console.log(products[i][filters.sortingCol])
+        }
+        }
+
     },[filters])
+
+    
       
     return<div className="right-section md:w-[80%] h-screen bg-primary p-10 overflow-x-scroll">
     <p className="text-3xl text-primaryText">Inventory</p>
@@ -50,7 +66,17 @@ export default function InventoryComponent(){
         options ={["price", "selling-price"]    }
         value ={filters["rangeCol"]}
         
-         /> <InputField placeholder="Start Range" type="number" className="w-[8em]"/> to <InputField placeholder="End Range" type="number" className="w-[8em]"/></p>
+         /> <InputField onChange={(e)=>{
+            setFilters(prevState=>({
+                ...prevState,
+                "range1": parseInt(e.target.value)
+            }))
+         }} placeholder="Start Range" type="number" className="w-[8em]"/> to <InputField onChange={(e)=>{
+            setFilters(prevState=>({
+                ...prevState,
+                "range2": parseInt(e.target.value)
+            }))
+         }} placeholder="End Range" type="number" className="w-[8em]"/></p>
          <p className="w-[30%]"><DropdownButton placeholder="Sort Type" onChange={(e)=>{
             setFilters(prevState =>({
                 ...prevState,
@@ -58,7 +84,7 @@ export default function InventoryComponent(){
             }))
         }}
         className="w-[7em] border-none"
-        options ={["Asc", "Desc"]    }
+        options ={["none", "asc", "desc"]    }
         value ={filters["sortingType"]}
         
          /> <DropdownButton placeholder="Column Name" onChange={(e)=>{
@@ -68,15 +94,16 @@ export default function InventoryComponent(){
             }))
         }}
         className="w-[10em] bg-white"
-        options ={["price", "selling-price", "discount", "min-lot-size", "avl-stocks"]    }
-        value ={filters["sortingCol"]} /></p>
+        options ={["price", "selling-price", "discount", "min-lot-size", "avl-stocks"]}
+        value ={filters["sortingCol"]}
+        values ={["cost_price", "selling_price", "discount_percentage", "min_lot_size", "availability"]} /></p>
     </div>:<Loading title="Loading filters" />}
     <div className="flex justify-between mt-5 md:pl-10">
         <div className="w-[10%]">Name</div>
         <div className="w-[10%]">Category</div>
         <div className="w-[10%]">Price</div>
         <div className="w-[10%]">Selling Price</div>
-        <div className="w-[10%]">Discount</div>   
+        <div className="w-[10%]">Discount%</div>   
         <div className="w-[20%]">Description</div>   
         <div className="w-[10%]">Min Lot size</div>   
         <div className="w-[10%]">Avl stocks</div>   
@@ -87,7 +114,7 @@ export default function InventoryComponent(){
                 <div key={i} className="flex justify-between mt-5 bg-white py-5 md:pl-10 text-border" >
                     <div className="w-[10%]">{key.name}</div>
                     <div className="w-[10%]">{key.category[0].toUpperCase()+key.category.substring(1)}</div>
-                    <div className="w-[10%]">{key.price} Rs</div>
+                    <div className="w-[10%]">{key.cost_price} Rs</div>
                     <div className="w-[10%]">{key.selling_price} Rs</div>
                     <div className="w-[10%]">{key.discount_percentage}%</div>   
                     <div className="w-[20%]">{key.description}</div>   
