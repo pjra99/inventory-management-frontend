@@ -16,100 +16,21 @@ export default function Home() {
     // const chartInstance1 = useRef(null);
     // const chartInstance2 = useRef(null);
     const [selectedComponent, setSelectedComponent] = useState("Main");
-  
-//     useEffect(() => {
-//       // Function to initialize a chart
-//       const initializeChart = (chartRef, chartInstance, config) => {
-//         if (chartRef.current) {
-//           // Destroy the existing chart instance if it exists
-//           if (chartInstance.current) {
-//             chartInstance.current.destroy();
-//           }
-//           chartInstance.current = new Chart(chartRef.current, config);
-//         }
-//       };
-  
-//       // Line chart for the first canvas
-//       initializeChart(chartRef, chartInstance1, {
-//         type: "line",
-//         data: {
-//           labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-//           datasets: [
-//             {
-//               label: "# of Votes",
-//               data: [12, 19, 3, 5, 2, 3],
-//               borderWidth: 1,
-//               fill: false,
-//               borderColor: "rgb(75, 192, 192)",
-//               tension: 0.1,
-//             },
-//           ],
-//         },
-//         options: {
-//           responsive: true,
-//           maintainAspectRatio: false,
-//           scales: {
-//             y: {
-//               beginAtZero: true,
-//             },
-//           },
-//         },
-//       });
-  
-//       // Line chart for the second canvas
-//       initializeChart(chartRef2, chartInstance2, {
-//         type: "line",
-//         data: {
-//           labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-//           datasets: [
-//             {
-//               label: "Profit Report with Chart",
-//               data: [3000, 4500, 3200, 6000, 5000, 7000],
-//               borderWidth: 1,
-//               fill: false,
-//               borderColor: "rgb(255, 99, 132)",
-//               tension: 0.1,
-//             },
-//           ],
-//         },
-//         options: {
-//           responsive: true,
-//           maintainAspectRatio: false,
-//           scales: {
-//             y: {
-//               beginAtZero: true,
-//             },
-//           },
-//         },
-//       });
-  
-//       // Cleanup function to destroy charts when component unmounts
-//       return () => {
-//         if (chartInstance1.current) {
-//           chartInstance1.current.destroy();
-//           chartInstance1.current = null;
-//         }
-//         if (chartInstance2.current) {
-//           chartInstance2.current.destroy();
-//           chartInstance2.current = null;
-//         }
-//       };
-//     }, []);
 
   const renderComponent = () => {
     switch (selectedComponent) {
       case "Sell":
-        return <SellComponent />;
+        return <SellComponent setCurrentComponent ={setSelectedComponent} />;
       case "Reporting":
-        return <ReportingComponent />;
+        return <ReportingComponent setCurrentComponent ={setSelectedComponent} />;
       case "Catalogue":
-        return <CatalogueComponent />;
+        return <CatalogueComponent setCurrentComponent ={setSelectedComponent} />;
       case "Inventory":
-        return <InventoryComponent />;
+        return <InventoryComponent setCurrentComponent ={setSelectedComponent} />;
       case "Customers":
-        return <CustomersComponent />;
+        return <CustomersComponent setCurrentComponent ={setSelectedComponent} />;
       case "Setup":
-        return <SetupComponent />;
+        return <SetupComponent setCurrentComponent ={setSelectedComponent} />;
       default:
         return <Main />;
     }
@@ -117,7 +38,7 @@ export default function Home() {
   return (
     <div className="bg-secondary p-2 md:flex justify-between text-secondary h-[100%]">
       <div className="left-section">
-        <Navigation modifier ={setSelectedComponent} />
+        <Navigation setCurrentComponent ={setSelectedComponent} />
       </div>
       
      {renderComponent()}

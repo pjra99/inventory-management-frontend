@@ -6,7 +6,7 @@ import RadioButtons from "./inputs/RadioButtons"
 import {ShoppingCart} from "lucide-react"
 import ShoppingCartComponent from "./ShoppingCartComponent"
 
-export default function SellComponent(){
+export default function SellComponent({setCurrentComponent}){
 const [userTypeNew, setUserTypeNew] = useState(true)
 const [showEmail, setShowEmail] = useState(false)
 const [showCartComponent, setShowCartComponent] = useState(false)
@@ -103,7 +103,7 @@ value={orderDetails['customer_address']}
 <div className="total-amount flex flex-col justify-between">
     <div>Go to the Inventory to add more items to create order
     </div>
-    <BlackButton name="Go to the inventory" className="h-[40px]" />
+    <BlackButton name="Go to the inventory" className="h-[40px]" onClick={()=>setCurrentComponent("Catalogue")} />
     <BlackButton name="Proceed to checkout" onClick={()=>{
         setShowCartComponent(true)
     }} className="h-[40px]"/>

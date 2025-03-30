@@ -6,7 +6,7 @@ import InputField from "./inputs/Input"
 import {sort} from "@/utils/sorting"
 import { setRange } from "@/utils/setRange"
 
-export default function InventoryComponent(){
+export default function InventoryComponent({ setCurrentComponent }){
     const [products, setProducts] = useState([])
     const [categories, setCategories]  = useState([])
     const [productsBkp, setProductsBkp] = useState([])

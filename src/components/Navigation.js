@@ -11,7 +11,7 @@ import {
   BookOpen,
 } from "lucide-react";
 
-const Navigation = ({ modifier }) => {
+const Navigation = ({ setCurrentComponent }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -43,7 +43,7 @@ const Navigation = ({ modifier }) => {
             <li
               key={index}
               className="text-white hover:bg-white/10 px-4 py-2 cursor-pointer"
-              onClick={() => modifier(item.name)}
+              onClick={() => setCurrentComponent(item.name)}
             >
               <div className="flex items-center gap-3">
                 <Icon size={20} className="text-white opacity-75" />
