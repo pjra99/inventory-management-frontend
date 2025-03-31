@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { startTransition } from "react";
 
 const initialState = {
-    cart: [],
+    cart: {},
 };
 
 const cartSlice = createSlice({
@@ -9,12 +10,27 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            state.cart.push(action.payload);
+            // console.log(Object.keys(state.cart).includes(action.payload._id))
+            if (Object.keys(state.cart).includes(action.payload._id)){
+                state.cart[action.payload._id].count+=1
+            }
+            else{
+            state.cart[action.payload._id] = {...action.payload, "count":1}
+            }
         },
-        removeFromCart: (state, action) => {
-            state.cart = state.cart.filter(item => item._id !== action.payload);
-            state.cart = JSON.parse(JSON.stringify(state.cart));
+        removeOneUnitFromCart: (state, action)=>{
+            if (Object.keys(state.cart).includes(action.payload._id) && state.cart[action.payload._id].count>1){    
+                state.cart[action.payload._id].count-=1}
+
+            else if(Object.keys(state.cart).includes(action.payload._id)){
+                delete state.cart[action.payload._id]
+            }
         },
+        removeFromCart: (state, action) => {        
+            if(Object.keys(state.cart).includes(action.payload._id)){
+                delete state.cart[action.payload._id]
+            }
+            },
         
         clearCart: (state) => {
             state.cart = [];
@@ -22,5 +38,5 @@ const cartSlice = createSlice({
     },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeOneUnitFromCart, removeFromCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

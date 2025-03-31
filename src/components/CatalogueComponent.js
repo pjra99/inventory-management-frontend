@@ -5,7 +5,8 @@ import BlackButton from "./buttons/BlackButton"
 import ShoppingCartComponent from "./ShoppingCartComponent"
 import { ShoppingCart } from "lucide-react"
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "@/features/cart/cart";
+import { addToCart, removeOneUnitFromCart, removeFromCart } from "@/features/cart/cart";
+import { ProductCard } from "./ProductCard"
 
 export default function CatalogueComponent(){
   const [products, setProducts] = useState([])
@@ -30,11 +31,7 @@ export default function CatalogueComponent(){
       {categories? <div className="flex flex-wrap justify-between mt-5 gap-y-10">{currentCategory.length==0? categories.map((key, i)=>(<div className="lg:h-[15em] h-[7em] w-[30%] p-5 bg-white flex justify-center items-center" onClick={()=>{setCurrentCategory(key)}} key={i}>{key}</div>)):<div className="flex flex-wrap justify-between">
         {products?(
           products.map((key, i) => (
-            <div key={i} className="p-4 bg-white m-2 rounded-xl h-50 w-40">
-                <div className="flex justify-center"><img src={key.image_url} className="h-[100px] w-[50px]" /></div>
-              <p className="text-sm">{key.name}</p>
-              <button onClick={()=>{dispatch(addToCart(key))}}>ADD TO CART</button>
-            </div>
+            <ProductCard item={key} addItem={()=>{dispatch(addToCart(key))}} removeItem={()=>{dispatch(removeOneUnitFromCart(key))}} />
           ))
         ) : (
           <Loading title="Products"/>
