@@ -1,15 +1,25 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import BlackButton from "./buttons/BlackButton"
 import DropdownButton from "./inputs/DropDownButton"
 import Input from "./inputs/Input"
 import RadioButtons from "./inputs/RadioButtons"
 import {ShoppingCart} from "lucide-react"
 import ShoppingCartComponent from "./ShoppingCartComponent"
-
+import { apiCall } from "@/utils/apiCall"
+import { addLotToCard } from "@/features/cart/cart"
+import { useDispatch, useSelector } from "react-redux"
 export default function SellComponent({setCurrentComponent}){
 const [userTypeNew, setUserTypeNew] = useState(true)
 const [showEmail, setShowEmail] = useState(false)
 const [showCartComponent, setShowCartComponent] = useState(false)
+const [currentCategory,setCurrentCategory] =useState("all")
+const [categories, setCategories] = useState([
+    "all",
+    "beauty",
+    "groceries",
+    "kitchen-accessories",
+    "sports-accessories"
+])
 const [orderDetails, setOrderDetails] = useState({
     product_category:"",
     product_name:"",
@@ -22,26 +32,45 @@ const [orderDetails, setOrderDetails] = useState({
     customer_contact:"",
     customer_email:""
 })
-let pro_catg = [
-    "Grocery","Utensil", "Toys", "Dairy", "Furniture"
-    ]
+
+useEffect(()=>{
+  console.log(orderDetails)
+  console.log(currentCategory)
+},[currentCategory])
+const fetchProduct=async ()=>{
+    let org_id = localStorage.getItem("org_id")
+    let url = `http://127.0.0.1:5000/${org_id}/fetch_product/${currentCategory}/${orderDetails.product_name}`
+    console.log(url)
+    let response = await apiCall("", "GET", url, "" )
+    console.log(response)
+    if (Object.keys(response).includes("msg")){
+     
+    }
+    else {
+    
+    }
+}
     return showCartComponent?<ShoppingCartComponent modifier={setShowCartComponent}/>: (        
 <div className="right-section md:w-[75%] h-screen bg-primary p-10">
 <div className="flex flex-wrap justify-between"><div className="text-3xl">Create an Order</div><button><ShoppingCart onClick={()=>{setShowCartComponent(true)}} /></button></div>
 <div className="bg-white mt-10  p-10">
 <div className ="Product-details flex justify-between">
 <div>
-<DropdownButton placeholder="Product Category" id="product-category" options={pro_catg} />
+<DropdownButton placeholder="Product Category" onChange={(e)=>{setCurrentCategory(e.target.value)}} id="product-category" options={categories} value={currentCategory} />
 </div>
 <div>
-<Input type="number" className="border-2 border-gray" placeholder="Product Name"/>
+<Input className="border-2 border-gray mr-[7rem]" placeholder="Product Name" onChange={(e)=> setOrderDetails(prevState=>({
+        ...prevState,
+        product_name: e.target.value
+    }))} value ={orderDetails.product_name} />
 </div>
 </div>
 <div className ="Product-Quantity flex flex-wrap justify-between my-10 ">
 <div className="mr-1">
 <RadioButtons name="Quantity Type" values={["Stock", "Unit"]} />
 </div>
-<div><Input placeholder="Enter the Quantity" value="" onChange=""/></div>
+<div><Input placeholder="Enter the Quantity"  />
+<BlackButton name="Add to cart" className="ml-1" onClick={()=>{fetchProduct()}}/></div>
 </div>
 <div className ="Customer-details/Total-Amount flex flex-wrap justify-between">
 <div className="customer-details">
@@ -103,7 +132,7 @@ value={orderDetails['customer_address']}
 <div className="total-amount flex flex-col justify-between">
     <div>Go to the Inventory to add more items to create order
     </div>
-    <BlackButton name="Go to the inventory" className="h-[40px]" onClick={()=>setCurrentComponent("Catalogue")} />
+    <BlackButton name="Go to the inventory" className="h-[40px]" onClick={()=>setCurrentComponent("CatalogueWithBackButton")} />
     <BlackButton name="Proceed to checkout" onClick={()=>{
         setShowCartComponent(true)
     }} className="h-[40px]"/>

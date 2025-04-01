@@ -5,10 +5,10 @@ import BlackButton from "./buttons/BlackButton"
 import ShoppingCartComponent from "./ShoppingCartComponent"
 import { ShoppingCart } from "lucide-react"
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeOneUnitFromCart, removeFromCart } from "@/features/cart/cart";
+import { addLotToCard, removeLotFromCart, addOneUnitToCart, removeOneUnitFromCart, removeFromCart, clearCart } from "@/features/cart/cart";
 import { ProductCard } from "./ProductCard"
 
-export default function CatalogueComponent(){
+export default function CatalogueComponent({ setCurrentComponent }){
   const [products, setProducts] = useState([])
   const [currentCategory, setCurrentCategory]= useState("")
   const [categories, setCategory] = useState([])
@@ -31,7 +31,7 @@ export default function CatalogueComponent(){
       {categories? <div className="flex flex-wrap justify-between mt-5 gap-y-10">{currentCategory.length==0? categories.map((key, i)=>(<div className="lg:h-[15em] h-[7em] w-[30%] p-5 bg-white flex justify-center items-center" onClick={()=>{setCurrentCategory(key)}} key={i}>{key}</div>)):<div className="flex flex-wrap justify-between">
         {products?(
           products.map((key, i) => (
-            <ProductCard item={key} addItem={()=>{dispatch(addToCart(key))}} removeItem={()=>{dispatch(removeOneUnitFromCart(key))}} />
+            <ProductCard item={key} addLot={()=>{dispatch(addLotToCard(key)); }} removeLot ={()=>{dispatch(removeLotFromCart(key)); console.log("remove lot")}} addItem={()=>{dispatch(addOneUnitToCart(key))}} removeItem={()=>{dispatch(removeOneUnitFromCart(key))}} />
           ))
         ) : (
           <Loading title="Products"/>

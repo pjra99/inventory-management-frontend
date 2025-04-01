@@ -10,11 +10,10 @@ import InventoryComponent from "@/components/InventoryComponent";
 import SellComponent from "@/components/SellComponent";
 import SetupComponent from "@/components/SetupComponent";
 import ReportingComponent from "@/components/ReportingComponent";
+import withBackButton from "@/components/CatalogueWithBackButton";
+
 export default function Home() {
-    // const chartRef = useRef(null);
-    // const chartRef2 = useRef(null);
-    // const chartInstance1 = useRef(null);
-    // const chartInstance2 = useRef(null);
+    const CatalogueWithBackButton = withBackButton(CatalogueComponent, "Sell");
     const [selectedComponent, setSelectedComponent] = useState("Main");
 
   const renderComponent = () => {
@@ -31,6 +30,8 @@ export default function Home() {
         return <CustomersComponent setCurrentComponent ={setSelectedComponent} />;
       case "Setup":
         return <SetupComponent setCurrentComponent ={setSelectedComponent} />;
+      case "CatalogueWithBackButton":
+        return <CatalogueWithBackButton CatalogueComponent={CatalogueComponent} setCurrentComponent={setSelectedComponent} />;
       default:
         return <Main />;
     }
