@@ -39,10 +39,10 @@ export default function SignUp() {
       <div className="bg-primary sm:h-[calc(100%-30px)] h-[calc(100%-10px)] sm:w-[50%] w-[90%] sm:ml-[20px]">
         <div className="flex justify-between my-20 mx-[20%]">
           {" "}
-          <header className="flex justify-center text-4xl  italic color-primaryText">
+          <header className="flex justify-center text-4xl  italic text-secondary">
             Sign Up
           </header>
-          <p className="mt-3 mx-5">or</p>
+          <p className="mt-3 mx-5 text-secondary">or</p>
           <section className="">
             <GoogleButton route="/signin" width="100%" />
           </section>
@@ -87,6 +87,7 @@ export default function SignUp() {
                     org_type: e.target.value,
                   }))
                 }
+                className="text-secondary"
                 options={["Retail", "Service", "Manufacturing"]} // Example array of options
                 value={formFields.org_type}
                 type="text"
@@ -118,6 +119,7 @@ export default function SignUp() {
                     role: e.target.value,
                   }))
                 }
+                // className="text-secondary"
                 value={formFields.role}
                 type="text"
               />
@@ -152,7 +154,7 @@ export default function SignUp() {
               />
             )}
           </div>
-          <div className="text-center mt-2 italic">
+          <div className="text-center mt-2 italic text-secondary">
             Already registered?{" "}
             <Link href="/signin" className="text-link">
               Sign In
@@ -161,11 +163,11 @@ export default function SignUp() {
           <div className="w-full mt-10">
             {validated ? (
               <BlackButton
-                onClick={() => {
+                onClick={async() => {
                   if (
                     validate(formFields, validated) 
                   ) {
-                    jsonResponse = apiCall(
+                    var jsonResponse = await apiCall(
                       formFields,
                       "post",
                       "http://127.0.0.1:5000/users",

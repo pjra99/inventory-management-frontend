@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 export const ProductCard =({item, addLot, removeLot, addItem, removeItem})=>{
     // console.log(removeLot)
     const cart = useSelector((state) => state.cart.cart);
-    // console.log(cart)
+    // console.log(cart)x
    const [unitTypeLot, setUnitTypeLot] = useState(false)
     return <div key={item._id} className="p-4 bg-white m-2 rounded-xl h-50 w-40">
                     <div key={item._id+1} className="flex justify-center"><img src={item.image_url} className="h-[100px] w-[50px]" /></div>
