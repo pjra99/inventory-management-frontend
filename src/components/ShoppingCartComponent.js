@@ -38,5 +38,6 @@ return <div className="right-section md:w-[75%] h-screen bg-primary p-10 overflo
           </li>
         ))}
       </ul>
+      <BlackButton name={"Create Order"} />
   </div>
 }

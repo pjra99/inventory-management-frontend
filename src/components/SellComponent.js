@@ -6,13 +6,15 @@ import RadioButtons from "./inputs/RadioButtons"
 import {ShoppingCart} from "lucide-react"
 import ShoppingCartComponent from "./ShoppingCartComponent"
 import { apiCall } from "@/utils/apiCall"
-import { addLotToCard } from "@/features/cart/cart"
+import { addLotToCard, addOneUnitToCart } from "@/features/cart/cart"
+import { changeState } from "@/features/general/states"
 import { useDispatch, useSelector } from "react-redux"
 export default function SellComponent({setCurrentComponent}){
 const [userTypeNew, setUserTypeNew] = useState(true)
 const [showEmail, setShowEmail] = useState(false)
 const [showCartComponent, setShowCartComponent] = useState(false)
 const [currentCategory,setCurrentCategory] =useState("all")
+const dispatch = useDispatch()
 const [categories, setCategories] = useState([
     "all",
     "beauty",
@@ -44,11 +46,12 @@ const fetchProduct=async ()=>{
     let response = await apiCall("", "GET", url, "" )
     console.log(response)
     if (Object.keys(response).includes("msg")){
-     
+    response["msg"]==0?alert("Product not found!"):alert("More than one product found!")
     }
     else {
-    
-    }
+    dispatch(quantity_type_stock.quantity_type_stock? addLotToCard(response): addOneUnitToCart(response))
+    alert("Product added to cart")
+    }   
 }
     return showCartComponent?<ShoppingCartComponent modifier={setShowCartComponent}/>: (        
 <div className="right-section md:w-[75%] h-screen bg-primary p-10">
@@ -132,7 +135,9 @@ value={orderDetails['customer_address']}
 <div className="total-amount flex flex-col justify-between">
     <div>Go to the Inventory to add more items to create order
     </div>
-    <BlackButton name="Go to the inventory" className="h-[40px]" onClick={()=>setCurrentComponent("CatalogueWithBackButton")} />
+    <BlackButton name="Go to the inventory" className="h-[40px]" onClick={()=>{
+        dispatch(changeState())
+        setCurrentComponent("CatalogueWithBackButton")}} />
     <BlackButton name="Proceed to checkout" onClick={()=>{
         setShowCartComponent(true)
     }} className="h-[40px]"/>
