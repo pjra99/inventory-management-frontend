@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addLotToCard, removeLotFromCart, addOneUnitToCart, removeOneUnitFromCart, removeFromCart, clearCart } from "@/features/cart/cart";
 import { ProductCard } from "./ProductCard"
 
-export default function CatalogueComponent({ setCurrentComponent }){
+export default function CatalogueComponent({ setCurrentComponent, backButton }){
   const [products, setProducts] = useState([])
   const [currentCategory, setCurrentCategory]= useState("")
   const [categories, setCategory] = useState([])
@@ -33,10 +33,12 @@ export default function CatalogueComponent({ setCurrentComponent }){
           products.map((key, i) => (
             <ProductCard item={key} addLot={()=>{dispatch(addLotToCard(key)); }} removeLot ={()=>{dispatch(removeLotFromCart(key)); console.log("remove lot")}} addItem={()=>{dispatch(addOneUnitToCart(key))}} removeItem={()=>{dispatch(removeOneUnitFromCart(key))}} />
           ))
+        
         ) : (
           <Loading title="Products"/>
         )}
 
         </div>}</div> :<Loading title="Loading"/>}
+        { !currentCategory && backButton?backButton:""}
          </div>)
 }

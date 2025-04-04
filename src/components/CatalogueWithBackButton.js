@@ -11,13 +11,14 @@ const withBackButton = (WrappedComponent, targetComponent) => {
     
     return (
   <>
-          <BlackButton 
-            name="Back" 
-            className="w-[100px] h-[40px] rounded-2xl"
-            onClick={handleBackClick}
-          />
+        
 
-        <WrappedComponent setCurrentComponent={setCurrentComponent} />
+        <WrappedComponent setCurrentComponent={setCurrentComponent} backButton={  <BlackButton 
+            name="Back" 
+            className="mt-10"
+            onClick={handleBackClick}
+
+          />} />
   </>
     );
   };
