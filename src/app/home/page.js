@@ -1,7 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { apiCall } from "@/utils/apiCall";
-import Chart from "chart.js/auto";
+import {useState } from "react";
 import Navigation from "@/components/Navigation";
 import Main from "@/components/Main"
 import CatalogueComponent from "@/components/CatalogueComponent";

@@ -25,20 +25,66 @@ const [categories, setCategories] = useState([
 const [orderDetails, setOrderDetails] = useState({
     product_category:"",
     product_name:"",
-    quantity_type_stock: true,
+    quantity_type_stock: false,
     product_quantity : 0,
     customer_type_new: userTypeNew,
     customer_id: "",
     customer_name:"",
-    customer_address:"",
+    shipping_address:"",
     customer_contact:"",
-    customer_email:""
+    customer_email:"",
+    business_name:""
 })
+useEffect(()=>{
+console.log(orderDetails)
+}, [orderDetails])
 
 useEffect(()=>{
   console.log(orderDetails)
   console.log(currentCategory)
 },[currentCategory])
+
+const handleCreateOrder= async()=>{
+
+    if(!orderDetails.customer_name|| !orderDetails.email||!orderDetails.customer_contact|| !orderDetails.business_name||!orderDetails.shipping_address){
+       alert("Please fill all the fields!") 
+    }
+    let url = `http://127.0.0.1:5000/${org_id}/customers/${customer_email}`
+    let response = await apiCall('', "GET", url, "")
+    if(userTypeNew){
+        if(response.customer_registered){
+            alert("Customer Already Registered, please enter the customer's email in 'Existing customer section'")
+            return;
+        }
+        
+        let payload= {
+            "name": orderDetails.customer_name,
+            "email":  orderDetails.email,
+            "contact":  orderDetails.customer_contact,
+            "business_name": orderDetails.business_name,
+            "address": orderDetails.shipping_address
+          }
+          try{
+            let new_customer = await apiCall(payload, "POST", url, "")
+            localStorage.setItem("customer_id", new_customer._id)
+          }
+          catch(e){
+            alert("Error creating user")
+            console.log(e)
+            return;
+          }
+    }
+    else {
+        if(!response.customer_registered){
+            alert("Customer with the following email not found! Go to New customers to create a new one")
+            return;
+        }
+        localStorage.setItem("customer_id", response._id)
+    }
+
+    
+    setShowCartComponent(true)
+}
 const fetchProduct=async ()=>{
     let org_id = localStorage.getItem("org_id")
     let url = `http://127.0.0.1:5000/${org_id}/fetch_product/${currentCategory}/${orderDetails.product_name}`
@@ -49,10 +95,12 @@ const fetchProduct=async ()=>{
     response["msg"]==0?alert("Product not found!"):alert("More than one product found!")
     }
     else {
-    dispatch(quantity_type_stock.quantity_type_stock? addLotToCard(response): addOneUnitToCart(response))
+    dispatch(orderDetails.quantity_type_stock? addLotToCard(response): addOneUnitToCart(response))
     alert("Product added to cart")
     }   
 }
+
+//Shopping cart component is returned if showCartComponent is True else the code for the Sell component is returned
     return showCartComponent?<ShoppingCartComponent modifier={setShowCartComponent}/>: (        
 <div className="right-section md:w-[75%] h-screen bg-primary p-10">
 <div className="flex flex-wrap justify-between"><div className="text-3xl">Create an Order</div><button><ShoppingCart onClick={()=>{setShowCartComponent(true)}} /></button></div>
@@ -70,9 +118,14 @@ const fetchProduct=async ()=>{
 </div>
 <div className ="Product-Quantity flex flex-wrap justify-between my-10 ">
 <div className="mr-1">
-<RadioButtons name="Quantity Type" values={["Stock", "Unit"]} />
+<RadioButtons name="Quantity Type" values={["Stock", "Unit"]} onChange={(e)=>setOrderDetails((prevState)=>({...prevState, quantity_type_stock: e.target.value=="Stock"? true:false}))} />
 </div>
-<div><Input placeholder="Enter the Quantity"  />
+<div><Input placeholder="Enter the Quantity" value={orderDetails.product_quantity} onChange={(e)=>{
+    setOrderDetails(prevState=>({
+        ...prevState,
+        product_quantity: Number(e.target.value)
+    }))
+}}  />
 <BlackButton name="Add to cart" className="ml-1" onClick={()=>{fetchProduct()}}/></div>
 </div>
 <div className ="Customer-details/Total-Amount flex flex-wrap justify-between">
@@ -83,10 +136,10 @@ const fetchProduct=async ()=>{
     setShowEmail(false)
 }}>New Customer</span></div>
 {!userTypeNew?<div className ="my-5">
-<Input type="text" placeholder="Enter Customer Id" value={orderDetails['customer_id']} onChange={(e)=>{
+<Input type="text" placeholder="Enter Customer's email Id" value={orderDetails['customer_email']} onChange={(e)=>{
     setOrderDetails(prevState =>({
         ...prevState,
-       customer_id: e.target.value
+       customer_email: e.target.value
     }))
 }}/></div>:
 <div className ="my-5">
@@ -104,22 +157,30 @@ const fetchProduct=async ()=>{
 }} value={orderDetails['customer_email']} /></>:<>  <Input type="text" placeholder="Enter Customer Name" onChange={(e)=>{
     setOrderDetails(prevState=>({
         ...prevState,
-        customer_name: e.target.value
+        customer_email: e.target.value
     }))
 }} value={orderDetails['customer_name']} />
 <br />
  <Input type="text" placeholder="Enter Shipping Address" className="mt-5" onChange={(e)=>{
     setOrderDetails(prevState =>({
         ...prevState,
-        customer_address: e.target.value
+        shipping_address: e.target.value
     }))
 }}
-value={orderDetails['customer_address']}
+value={orderDetails['shipping_address']}
+/>
+<Input type="text" placeholder="Enter business name" className="mt-5" onChange={(e)=>{
+    setOrderDetails(prevState =>({
+        ...prevState,
+        business_name: e.target.value
+    }))
+}}
+value={orderDetails['business_name']}
 /></>}
 </div>}
 <div className="">
     <BlackButton onClick={!userTypeNew? ()=>{}:()=>{
-    if (orderDetails['customer_name'].length>3 &&orderDetails['customer_address'].length>10){
+    if (orderDetails['customer_name'].length>3 && orderDetails['shipping_address'].length>10){
         setShowEmail(true)
     }
     else if (orderDetails['customer_name'].length<=3){
