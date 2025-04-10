@@ -45,46 +45,58 @@ useEffect(()=>{
 },[currentCategory])
 
 const handleCreateOrder= async()=>{
+   console.log("CLicked")
+   let org_id = localStorage.getItem("org_id")
+    let url = `http://127.0.0.1:5000/${org_id}/customers/${orderDetails.customer_email}`
+    let response = await apiCall('', "GET", url, "")
+    console.log(response)
+    console.log(userTypeNew)
 
-    if(!orderDetails.customer_name|| !orderDetails.email||!orderDetails.customer_contact|| !orderDetails.business_name||!orderDetails.shipping_address){
+    if(userTypeNew &&(!orderDetails.customer_name|| !orderDetails.email||!orderDetails.customer_contact|| !orderDetails.business_name||!orderDetails.shipping_address)){
        alert("Please fill all the fields!") 
     }
-    let url = `http://127.0.0.1:5000/${org_id}/customers/${customer_email}`
-    let response = await apiCall('', "GET", url, "")
-    if(userTypeNew){
-        if(response.customer_registered){
-            alert("Customer Already Registered, please enter the customer's email in 'Existing customer section'")
-            return;
+    
+    //when customer type is set as new but the email already exists
+    else if(userTypeNew && response.customerRegistered){
+        alert("Customer Already Registered, please enter the customer's email in 'Existing customer section'")
+        return;    
         }
-        
-        let payload= {
-            "name": orderDetails.customer_name,
-            "email":  orderDetails.email,
-            "contact":  orderDetails.customer_contact,
-            "business_name": orderDetails.business_name,
-            "address": orderDetails.shipping_address
-          }
-          try{
-            let new_customer = await apiCall(payload, "POST", url, "")
-            localStorage.setItem("customer_id", new_customer._id)
-          }
-          catch(e){
-            alert("Error creating user")
-            console.log(e)
-            return;
-          }
-    }
-    else {
-        if(!response.customer_registered){
+    
+    //when the customer type is not new but customer does not exists in the db
+    else if(!userTypeNew && !response.customerRegistered && !orderDetails.customer_email) {
             alert("Customer with the following email not found! Go to New customers to create a new one")
             return;
         }
-        localStorage.setItem("customer_id", response._id)
-    }
 
+    else{
     
+    let payload= {
+        "name": orderDetails.customer_name,
+        "email":  orderDetails.email,
+        "contact":  orderDetails.customer_contact,
+        "business_name": orderDetails.business_name,
+        "address": orderDetails.shipping_address
+        }
+
+        try{
+        
+        await apiCall(payload, "POST", url, "")
+        // localStorage.setItem("customer_email", payload.email)
+        }
+        catch(e){     
+        alert("Error creating user")
+        console.log(e)
+        return;
+        }
+        
+        
+
+    localStorage.setItem("customer_email", payload.email)
     setShowCartComponent(true)
 }
+}
+    
+
 const fetchProduct=async ()=>{
     let org_id = localStorage.getItem("org_id")
     let url = `http://127.0.0.1:5000/${org_id}/fetch_product/${currentCategory}/${orderDetails.product_name}`
@@ -179,17 +191,7 @@ value={orderDetails['business_name']}
 /></>}
 </div>}
 <div className="">
-    <BlackButton onClick={!userTypeNew? ()=>{}:()=>{
-    if (orderDetails['customer_name'].length>3 && orderDetails['shipping_address'].length>10){
-        setShowEmail(true)
-    }
-    else if (orderDetails['customer_name'].length<=3){
-        alert("Customer Name too small")
-    }
-    else{
-        alert("Customer's address too small")
-    }
-}
+    <BlackButton onClick={async()=>{await handleCreateOrder()}
 }  name={`${!showEmail && userTypeNew ? "Next":"Create an Order"}`}/>
 </div>
 </div>
