@@ -11,24 +11,27 @@ export default function ShoppingCartComponent({modifier}){
     console.log(Object.values(cart))
    }, [cart])
   const handleCreateOrder = async()=>{
+    if(cart && cart.length==0){
+      alert("No Products to create an order!")
+      return
+    }
     // console.log("clicked")
     let customer_id= localStorage.getItem("customer_id")
     if(!customer_id){
       alert("Please add a customer")
       return
     }
-    apiCall(Object.values(cart), "POST", url,  "")
+    // apiCall(Object.values(cart), "POST", url,  "")
     try{
       let org_id = localStorage.getItem("org_id")
       let customer_email = localStorage.getItem("customer_email")
-      let url = `http://127.0.0.1:5000/${org_id}/orders/${customer_email}`
-      let response= await apiCall(Object.values(cart), "POST", url,  "")
-      console.log(response)
-      // console.log(response.status)
-      // console.log(response.ok)
-      // if(response.status)    
+      console.log(customer_email)
+      // let url = `http://127.0.0.1:5000/${org_id}/orders/${customer_email}`
+      // let response= await apiCall(Object.values(cart), "POST", url,  "")
+      console.log(org_id)
+      console.log(customer_email)
       alert("Order Successfully created!")
-      dispatch(clearCart())
+      // dispatch(clearCart())
     }
     catch(e){
       console.log(e)

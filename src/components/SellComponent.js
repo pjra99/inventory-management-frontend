@@ -202,9 +202,10 @@ value={orderDetails['shipping_address']}
 value={orderDetails['business_name']}
 /></>}
 </div>}
-<div className="">
+<div className="flex justify-between">
+    <BlackButton name="back" onClick={()=>setShowNextFields(false)} className={`${showNextFields? `block`:`hidden`}`}/>
     <BlackButton  onClick={async () => {
-    if (showNextFields && userTypeNew) {
+    if (showNextFields || !userTypeNew) {
       await handleAddCustomer();
     } else {
      setShowNextFields(true)
