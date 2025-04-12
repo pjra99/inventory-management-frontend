@@ -11,7 +11,7 @@ import { changeState } from "@/features/general/states"
 import { useDispatch, useSelector } from "react-redux"
 export default function SellComponent({setCurrentComponent}){
 const [userTypeNew, setUserTypeNew] = useState(true)
-const [showEmail, setShowEmail] = useState(false)
+const [showNextFields, setShowNextFields] = useState(false)
 const [showCartComponent, setShowCartComponent] = useState(false)
 const [currentCategory,setCurrentCategory] =useState("all")
 const dispatch = useDispatch()
@@ -52,8 +52,15 @@ const handleAddCustomer= async()=>{
     console.log(response)
     console.log(userTypeNew)
 
-    if(userTypeNew &&(!orderDetails.customer_name|| !orderDetails.email||!orderDetails.customer_contact|| !orderDetails.business_name||!orderDetails.shipping_address)){
-       alert("Please fill all the fields!") 
+    if(userTypeNew &&(!orderDetails.customer_name|| !orderDetails.customer_email||!orderDetails.customer_contact|| !orderDetails.business_name||!orderDetails.shipping_address)){
+       console.log({
+        "name": orderDetails.customer_name,
+        "email":  orderDetails.customer_email,
+        "contact":  orderDetails.customer_contact,
+        "business_name": orderDetails.business_name,
+        "address": orderDetails.shipping_address
+        })
+        alert("Please fill all the fields!") 
     }
     
     //when customer type is set as new but the email already exists
@@ -68,14 +75,14 @@ const handleAddCustomer= async()=>{
             return;
         }
 
-    else if(!userTypeNew && orderDetails.customer_email) {
-        alert("Customer with the following email not found! Go to New customers to create a new one")
-        localStorage.setItem("customer_email", payload.email)
+    else if(!userTypeNew && orderDetails.customer_email && response.customerRegistered ) {
+        // alert("Customer with the following email not found! Go to New customers to create a new one")
+        localStorage.setItem("customer_email", orderDetails.email)
         alert("Customer Added Successfully!")
     }
 
     else if(userTypeNew){
-    
+    console.log("clicked")
     let payload= {
         "name": orderDetails.customer_name,
         "email":  orderDetails.email,
@@ -148,9 +155,9 @@ const fetchProduct=async ()=>{
 <div className ="Customer-details/Total-Amount flex flex-wrap justify-between">
 <div className="customer-details">
 <div className="mb-5"><span className={`border-2 border-gray p-2 ${userTypeNew? `bg-transparent`: `bg-secondary text-white`}`} onClick={()=>{setUserTypeNew(false)
-    setShowEmail(false)
+    setShowNextFields(false)
 }}>Existing Customer</span><span className={`border-2 border-gray p-2 ${userTypeNew? `bg-secondary text-white`:`bg-transparent`}`} onClick={()=>{setUserTypeNew(true)
-    setShowEmail(false)
+    setShowNextFields(false)
 }}>New Customer</span></div>
 {!userTypeNew?<div className ="my-5">
 <Input type="text" placeholder="Enter Customer's email Id" value={orderDetails['customer_email']} onChange={(e)=>{
@@ -160,7 +167,7 @@ const fetchProduct=async ()=>{
     }))
 }}/></div>:
 <div className ="my-5">
-  {showEmail?<><Input type="text" placeholder="Enter Customer's phone number" onChange={(e)=>{
+  {showNextFields?<><Input type="text" placeholder="Enter Customer's phone number" onChange={(e)=>{
     setOrderDetails(prevState=>({
         ...prevState,
         customer_contact: e.target.value
@@ -196,8 +203,13 @@ value={orderDetails['business_name']}
 /></>}
 </div>}
 <div className="">
-    <BlackButton onClick={async()=>{await handleAddCustomer()}
-}  name={`${!showEmail && userTypeNew ? "Next":"Add Customer"}`}/>
+    <BlackButton  onClick={async () => {
+    if (showNextFields && userTypeNew) {
+      await handleAddCustomer();
+    } else {
+     setShowNextFields(true)
+    }
+  }}  name={`${!showNextFields && userTypeNew ? "Next":"Add Customer"}`}/>
 </div>
 </div>
 <div className="total-amount flex flex-col justify-between">
