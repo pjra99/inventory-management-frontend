@@ -24,8 +24,8 @@ export default function ShoppingCartComponent({modifier}){
       let url = `http://127.0.0.1:5000/${org_id}/orders/${customer_email}`
       let response= await apiCall(Object.values(cart), "POST", url,  "")
       console.log(response)
-      console.log(response.status)
-      console.log(response.ok)
+      // console.log(response.status)
+      // console.log(response.ok)
       // if(response.status)    
       alert("Order Successfully created!")
       dispatch(clearCart())

@@ -44,7 +44,7 @@ useEffect(()=>{
   console.log(currentCategory)
 },[currentCategory])
 
-const handleCreateOrder= async()=>{
+const handleAddCustomer= async()=>{
    console.log("CLicked")
    let org_id = localStorage.getItem("org_id")
     let url = `http://127.0.0.1:5000/${org_id}/customers/${orderDetails.customer_email}`
@@ -63,12 +63,18 @@ const handleCreateOrder= async()=>{
         }
     
     //when the customer type is not new but customer does not exists in the db
-    else if(!userTypeNew && !response.customerRegistered && !orderDetails.customer_email) {
+    else if(!userTypeNew && !response.customerRegistered && orderDetails.customer_email) {
             alert("Customer with the following email not found! Go to New customers to create a new one")
             return;
         }
 
-    else{
+    else if(!userTypeNew && orderDetails.customer_email) {
+        alert("Customer with the following email not found! Go to New customers to create a new one")
+        localStorage.setItem("customer_email", payload.email)
+        alert("Customer Added Successfully!")
+    }
+
+    else if(userTypeNew){
     
     let payload= {
         "name": orderDetails.customer_name,
@@ -87,12 +93,11 @@ const handleCreateOrder= async()=>{
         alert("Error creating user")
         console.log(e)
         return;
-        }
-        
-        
+        }  
 
     localStorage.setItem("customer_email", payload.email)
-    setShowCartComponent(true)
+    alert("New customer Added Successfully!")
+    // setShowCartComponent(true)
 }
 }
     
@@ -169,7 +174,7 @@ const fetchProduct=async ()=>{
 }} value={orderDetails['customer_email']} /></>:<>  <Input type="text" placeholder="Enter Customer Name" onChange={(e)=>{
     setOrderDetails(prevState=>({
         ...prevState,
-        customer_email: e.target.value
+        customer_name: e.target.value
     }))
 }} value={orderDetails['customer_name']} />
 <br />
@@ -191,8 +196,8 @@ value={orderDetails['business_name']}
 /></>}
 </div>}
 <div className="">
-    <BlackButton onClick={async()=>{await handleCreateOrder()}
-}  name={`${!showEmail && userTypeNew ? "Next":"Create an Order"}`}/>
+    <BlackButton onClick={async()=>{await handleAddCustomer()}
+}  name={`${!showEmail && userTypeNew ? "Next":"Add Customer"}`}/>
 </div>
 </div>
 <div className="total-amount flex flex-col justify-between">
