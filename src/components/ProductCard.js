@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-// import {enableAddToCart}
+import { enableAddToCart } from "@/features/general/states";
 export const ProductCard =({item, addLot, removeLot, addItem, removeItem})=>{
     // console.log(removeLot)
     const cart = useSelector((state) => state.cart.cart);

@@ -1,10 +1,12 @@
 import BlackButton from "./buttons/BlackButton";
 import { useDispatch, useSelector } from "react-redux";
 import {addOneUnitToCart, removeOneUnitFromCart, removeFromCart, clearCart } from "@/features/cart/cart";
+import {toggleAddToCart, setOrgId, setCustomerId} from "@/features/general/states"
 import { useEffect } from "react";
 import { apiCall } from "@/utils/apiCall";
 export default function ShoppingCartComponent({modifier}){
   const cart = useSelector((state) => state.cart.cart);
+  const customer_email = useSelector((state)=> state.change.customer_id)
   const productsInCart = Object.values(cart)
   const dispatch = useDispatch();
    useEffect(()=>{
@@ -24,12 +26,12 @@ export default function ShoppingCartComponent({modifier}){
     // apiCall(Object.values(cart), "POST", url,  "")
     try{
       let org_id = localStorage.getItem("org_id")
-      let customer_email = localStorage.getItem("customer_email")
+      // let customer_email = localStorage.getItem("customer_email")
       console.log(customer_email)
       // let url = `http://127.0.0.1:5000/${org_id}/orders/${customer_email}`
       // let response= await apiCall(Object.values(cart), "POST", url,  "")
-      console.log(org_id)
-      console.log(customer_email)
+      // console.log(org_id)
+      console.log("Customer_id",customer_email)
       alert("Order Successfully created!")
       // dispatch(clearCart())
     }

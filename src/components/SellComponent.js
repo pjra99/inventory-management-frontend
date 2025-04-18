@@ -7,7 +7,7 @@ import {ShoppingCart} from "lucide-react"
 import ShoppingCartComponent from "./ShoppingCartComponent"
 import { apiCall } from "@/utils/apiCall"
 import { addLotToCard, addOneUnitToCart } from "@/features/cart/cart"
-import { enableAddToCart } from "@/features/general/states"
+import { toggleAddToCart , setCustomerId, setOrgId} from "@/features/general/states"
 import { useDispatch, useSelector } from "react-redux"
 export default function SellComponent({setCurrentComponent}){
 const [userTypeNew, setUserTypeNew] = useState(true)
@@ -49,8 +49,8 @@ const handleAddCustomer= async()=>{
    let org_id = localStorage.getItem("org_id")
     let url = `http://127.0.0.1:5000/${org_id}/customers/${orderDetails.customer_email}`
     let response = await apiCall('', "GET", url, "")
-    console.log(response)
-    console.log(userTypeNew)
+    // console.log(response)
+    // console.log(userTypeNew)
 
     if(userTypeNew &&(!orderDetails.customer_name|| !orderDetails.customer_email||!orderDetails.customer_contact|| !orderDetails.business_name||!orderDetails.shipping_address)){
        console.log({
@@ -76,8 +76,9 @@ const handleAddCustomer= async()=>{
         }
 
     else if(!userTypeNew && orderDetails.customer_email && response.customerRegistered ) {
-        // alert("Customer with the following email not found! Go to New customers to create a new one")
-        localStorage.setItem("customer_email", orderDetails.email)
+        console.log("Email", orderDetails.customer_email)
+        console.log("Hi")
+        dispatch(setCustomerId(orderDetails.customer_email))
         alert("Customer Added Successfully!")
     }
 
@@ -101,8 +102,8 @@ const handleAddCustomer= async()=>{
         console.log(e)
         return;
         }  
-
-    localStorage.setItem("customer_email", payload.email)
+    console.log("Email", orderDetails.customer_email)
+    dispatch(setCustomerId(orderDetails.customer_email))
     alert("New customer Added Successfully!")
     // setShowCartComponent(true)
 }
@@ -226,7 +227,7 @@ value={orderDetails['business_name']}
     <div>Go to the Inventory to add more items to create order
     </div>
     <BlackButton name="Go to the inventory" className="h-[40px]" onClick={()=>{
-        dispatch(enableAddToCart())
+        dispatch(toggleAddToCart())
         setCurrentComponent("CatalogueWithBackButton")}} />
     <BlackButton name="Proceed to checkout" onClick={()=>{
         setShowCartComponent(true)
