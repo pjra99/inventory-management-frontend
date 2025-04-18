@@ -8,8 +8,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiCall } from "@/utils/apiCall";
 import { Authentication } from "@/utils/Authentication";
+import { useSelector, useDispatch } from "react-redux";
+import {setCustomerId, setOrgId} from "@/features/general/states"
+
 
 export default function SignUp() {
+  const dispatch = useDispatch()
   const [userCredentials, setUserCredentials] = useState({
     "email":"",
     "password":""
@@ -65,7 +69,13 @@ export default function SignUp() {
               onClick={async () => {
                 let response = await apiCall("", "GET", `http://127.0.0.1:5000/users/${userCredentials.email}/${userCredentials.password}`)
                 localStorage.setItem("org_id",response.org_id)
-                 response && response.authenticated? route.push("/home"):alert("Invalid Credentials")
+                 if(response && response.authenticated){ 
+                  dispatch(setCustomerId(response['_id']))
+                  route.push("/home")
+                }
+                else{
+                  alert("Invalid Credentials")
+                }
               }}
               name="Sign In"
               className="w-full"

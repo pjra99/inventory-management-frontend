@@ -5,6 +5,8 @@ import InputField from "@/components/inputs/Input";
 import Margin from "@/components/Margin";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {setCustomerId, setOrgId} from "@/features/general/states"
 import { useRouter } from "next/navigation";
 import DropdownButton from "@/components/inputs/DropDownButton";
 import RadioButtons from "@/components/inputs/RadioButtons";
@@ -25,6 +27,7 @@ export default function SignUp() {
   });
 
   const route = useRouter();
+  const dispatch = useDispatch();
   // useEffect(() => {
   //   apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
   // }, []);
@@ -33,6 +36,26 @@ export default function SignUp() {
     await validate( formFields, validated)? setValidated(true)
     : null;
 
+  }
+  const handleSignUp= async()=> {
+    if (validate(formFields, validated) ) {
+      try{
+      let response= await apiCall(
+        formFields,
+        "post",
+        "http://127.0.0.1:5000/users",
+        ''
+      )
+
+      if(Object.keys(response).includes('_id')){
+        dispatch(setCustomerId(response['_id']))
+      }
+    }
+      catch(e){
+        alert("Error registering user!")
+        console.log(e)
+      }
+    }
   }
   return (
     <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
@@ -163,23 +186,7 @@ export default function SignUp() {
           <div className="w-full mt-10">
             {validated ? (
               <BlackButton
-                onClick={async() => {
-                  if (
-                    validate(formFields, validated) 
-                  ) {
-                    var jsonResponse = await apiCall(
-                      formFields,
-                      "post",
-                      "http://127.0.0.1:5000/users",
-                      ''
-                    )}
-                   if ("Error:" in jsonResponse)
-                      alert("Error registering User");
-                   else {
-                    alert("Success!");
-                    route.push("/home");
-                    } 
-                }}
+                onClick={async() =>{handleSignUp()}}
                 name="Sign Up!"
               />
             ) : (

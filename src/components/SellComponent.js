@@ -7,7 +7,7 @@ import {ShoppingCart} from "lucide-react"
 import ShoppingCartComponent from "./ShoppingCartComponent"
 import { apiCall } from "@/utils/apiCall"
 import { addLotToCard, addOneUnitToCart } from "@/features/cart/cart"
-import { changeState } from "@/features/general/states"
+import { enableAddToCart } from "@/features/general/states"
 import { useDispatch, useSelector } from "react-redux"
 export default function SellComponent({setCurrentComponent}){
 const [userTypeNew, setUserTypeNew] = useState(true)
@@ -85,7 +85,7 @@ const handleAddCustomer= async()=>{
     console.log("clicked")
     let payload= {
         "name": orderDetails.customer_name,
-        "email":  orderDetails.email,
+        "email":  orderDetails.customer_email,
         "contact":  orderDetails.customer_contact,
         "business_name": orderDetails.business_name,
         "address": orderDetails.shipping_address
@@ -121,6 +121,13 @@ const fetchProduct=async ()=>{
     else {
     dispatch(orderDetails.quantity_type_stock? addLotToCard(response): addOneUnitToCart(response))
     alert("Product added to cart")
+    setOrderDetails(prev=>({
+        ...prev,
+        product_category:"",
+        product_name:"",
+        quantity_type_stock: false,
+        product_quantity : 0
+    }))
     }   
 }
 
@@ -131,6 +138,8 @@ const fetchProduct=async ()=>{
 <div className="bg-white mt-10  p-10">
 <div className ="Product-details flex justify-between">
 <div>
+
+{/* details of the product to be added to the cart */}
 <DropdownButton placeholder="Product Category" onChange={(e)=>{setCurrentCategory(e.target.value)}} id="product-category" options={categories} value={currentCategory} />
 </div>
 <div>
@@ -217,7 +226,7 @@ value={orderDetails['business_name']}
     <div>Go to the Inventory to add more items to create order
     </div>
     <BlackButton name="Go to the inventory" className="h-[40px]" onClick={()=>{
-        dispatch(changeState())
+        dispatch(enableAddToCart())
         setCurrentComponent("CatalogueWithBackButton")}} />
     <BlackButton name="Proceed to checkout" onClick={()=>{
         setShowCartComponent(true)

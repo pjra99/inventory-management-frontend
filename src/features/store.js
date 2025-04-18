@@ -5,8 +5,9 @@ import enableAddToCartReducer from "./general/states";
 const store = configureStore({
     reducer: {
         cart: cartReducer,
-        enableAddToCart: enableAddToCartReducer,
+        change: enableAddToCartReducer,
     },
 });
 
 export default store;
+       

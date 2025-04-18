@@ -1,15 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const enableAddToCartSlice = createSlice({
-name:"enableAddToCart",
-initialState: false,
+const initialState = {
+    enableAddToCart: false,
+    org_id: "",
+    customer_id:""
+}
+const changeStateSlice = createSlice({
+name:"change state",
+initialState,
 reducers:{
-    changeState: (state)=>{
-        console.log("Here",state)
-        return !state
+    toggleAddToCart: (state)=>{
+        return !state.enableAddToCart
+    },
+    setOrgId: (state, action)=>{
+     state.org_id= action.payload
+    },
+    setCustomerId:(state, action)=>{
+      state.customer_id = action.payload
     }
 }
 })
 
-export const {changeState} = enableAddToCartSlice.actions;
-export default enableAddToCartSlice.reducer;
+export const {enableAddToCart, setCustomerId, setOrgId} = changeStateSlice.actions;
+export default changeStateSlice.reducer;
