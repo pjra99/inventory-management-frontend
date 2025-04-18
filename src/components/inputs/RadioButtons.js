@@ -1,16 +1,17 @@
 export default function RadioButtons({ name, values, onChange, value }) {
   // console.log(values);
-  const inputs = values.map((value, index) => (
+  const inputs = values.map((key, index) => (
     <div key={index}>
       <label htmlFor={name} key={index + 1} className="text-border font-bold">
-        {value}
+        {key}
       </label>
       <input
         className="ml-1"
         type="radio"
         key={index + 2}
         name={name}
-        value={value}
+        value={key}
+        checked={(key === "Stock" && value === true) || (key === "Unit" && value === false)}
         onChange={onChange}
       />
     </div>

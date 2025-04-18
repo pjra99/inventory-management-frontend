@@ -7,7 +7,7 @@ import {ShoppingCart} from "lucide-react"
 import ShoppingCartComponent from "./ShoppingCartComponent"
 import { apiCall } from "@/utils/apiCall"
 import { addLotToCard, addOneUnitToCart } from "@/features/cart/cart"
-import { toggleAddToCart , setCustomerId, setOrgId} from "@/features/general/states"
+import { enableAddToCart, setCustomerId, setOrgId} from "@/features/general/states"
 import { useDispatch, useSelector } from "react-redux"
 export default function SellComponent({setCurrentComponent}){
 const [userTypeNew, setUserTypeNew] = useState(true)
@@ -15,6 +15,7 @@ const [showNextFields, setShowNextFields] = useState(false)
 const [showCartComponent, setShowCartComponent] = useState(false)
 const [currentCategory,setCurrentCategory] =useState("all")
 const dispatch = useDispatch()
+// const enable_add_to_cart = useSelector(state=>state.change.enableAddToCart)
 const [categories, setCategories] = useState([
     "all",
     "beauty",
@@ -91,7 +92,6 @@ const handleAddCustomer= async()=>{
         "business_name": orderDetails.business_name,
         "address": orderDetails.shipping_address
         }
-
         try{
         
         await apiCall(payload, "POST", url, "")
@@ -118,6 +118,10 @@ const fetchProduct=async ()=>{
     console.log(response)
     if (Object.keys(response).includes("msg")){
     response["msg"]==0?alert("Product not found!"):alert("More than one product found!")
+    }
+    else if (!orderDetails.product_name || orderDetails.product_quantity>0){
+        alert("Please add the name and quantity of the product to be added!")
+        return
     }
     else {
     dispatch(orderDetails.quantity_type_stock? addLotToCard(response): addOneUnitToCart(response))
@@ -152,7 +156,7 @@ const fetchProduct=async ()=>{
 </div>
 <div className ="Product-Quantity flex flex-wrap justify-between my-10 ">
 <div className="mr-1">
-<RadioButtons name="Quantity Type" values={["Stock", "Unit"]} onChange={(e)=>setOrderDetails((prevState)=>({...prevState, quantity_type_stock: e.target.value=="Stock"? true:false}))} />
+<RadioButtons name="Quantity Type" values={["Stock", "Unit"]} onChange={(e)=>setOrderDetails((prevState)=>({...prevState, quantity_type_stock: e.target.value=="Stock"? true:false}))} value={orderDetails.quantity_type_stock} />
 </div>
 <div><Input placeholder="Enter the Quantity" value={orderDetails.product_quantity} onChange={(e)=>{
     setOrderDetails(prevState=>({
@@ -227,7 +231,7 @@ value={orderDetails['business_name']}
     <div>Go to the Inventory to add more items to create order
     </div>
     <BlackButton name="Go to the inventory" className="h-[40px]" onClick={()=>{
-        dispatch(toggleAddToCart())
+        dispatch(enableAddToCart())
         setCurrentComponent("CatalogueWithBackButton")}} />
     <BlackButton name="Proceed to checkout" onClick={()=>{
         setShowCartComponent(true)
