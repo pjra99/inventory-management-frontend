@@ -1,0 +1,1 @@
+export const base_url = 'https://inventory-management-backend-1-qqrk.onrender.com'

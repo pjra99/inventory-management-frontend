@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation";
 import { apiCall } from "@/utils/apiCall";
 import { Authentication } from "@/utils/Authentication";
 import { useSelector, useDispatch } from "react-redux";
-import {setCustomerId, setOrgId} from "@/features/general/states"
+import {setCustomerId, setOrgId, setSignedInTrue} from "@/features/general/states"
+import {base_url} from "@/API"
 
 
 export default function SignUp() {
@@ -67,10 +68,12 @@ export default function SignUp() {
           <div className="w-full mt-10">
             <BlackButton
               onClick={async () => {
-                let response = await apiCall("", "GET", `http://127.0.0.1:5000/users/${userCredentials.email}/${userCredentials.password}`)
+                let response = await apiCall("", "GET", `${base_url}/users/${userCredentials.email}/${userCredentials.password}`)
                 localStorage.setItem("org_id",response.org_id)
                  if(response && response.authenticated){ 
                   dispatch(setCustomerId(response['_id']))
+                  dispatch(setOrgId(response.org_id))
+                  dispatch(setSignedInTrue())
                   route.push("/home")
                 }
                 else{

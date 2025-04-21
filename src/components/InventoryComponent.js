@@ -4,7 +4,7 @@ import Loading from "./Loading"
 import DropdownButton from "./inputs/DropDownButton"
 import InputField from "./inputs/Input"
 import {sort} from "@/utils/sorting"
-import { setRange } from "@/utils/setRange"
+import { base_url } from "@/API"
 
 export default function InventoryComponent({ setCurrentComponent }){
     const [products, setProducts] = useState([])
@@ -21,9 +21,9 @@ export default function InventoryComponent({ setCurrentComponent }){
     useEffect(()=>{ 
         const org_id = localStorage.getItem("org_id")
         // console.log(org_id)
-        let url = (filters.category.length>0)?`http://127.0.0.1:5000/${org_id}/products/${filters.category}`:`http://127.0.0.1:5000/${org_id}/products`
+        let url = (filters.category.length>0)?`${base_url}/${org_id}/products/${filters.category}`:`http://127.0.0.1:5000/${org_id}/products`
         apiCall('', 'GET', url, setProducts)
-        apiCall('', "GET", `http://127.0.0.1:5000/${org_id}/get_product_categories`, setCategories)
+        apiCall('', "GET", `${base_url}/${org_id}/get_product_categories`, setCategories)
         // console.log(filters)
         // console.log(categories)
     },[filters.category])

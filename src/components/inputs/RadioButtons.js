@@ -11,7 +11,7 @@ export default function RadioButtons({ name, values, onChange, value }) {
         key={index + 2}
         name={name}
         value={key}
-        checked={(key === "Stock" && value === true) || (key === "Unit" && value === false)}
+        // checked={(key === "Stock" && value === true) || (key === "Unit" && value === false)}
         onChange={onChange}
       />
     </div>

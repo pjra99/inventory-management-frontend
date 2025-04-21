@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { apiCall } from "@/utils/apiCall";
 import Chart from "chart.js/auto";
-import Navigation from "@/components/Navigation";
 
 export default function Main(){
   const chartRef = useRef(null);

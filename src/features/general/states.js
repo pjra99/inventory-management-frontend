@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     enableAddToCart: false,
     org_id: "",
-    customer_id:""
+    customer_id:"",
+    signedIn: false
 }
 const changeStateSlice = createSlice({
 name:"change",
@@ -20,9 +21,15 @@ reducers:{
     },
     setCustomerId:(state, action)=>{
       state.customer_id = action.payload
+    },
+    setSignedInTrue:(state)=>{
+        state.signedIn = true
+    },
+    setSignedInFalse:(state)=>{
+        state.signedIn = false
     }
 }
 })
 
-export const {setEnableAddToCart, disableAddToCart, setCustomerId, setOrgId} = changeStateSlice.actions;
+export const {setEnableAddToCart, disableAddToCart, setCustomerId, setOrgId, setSignedInTrue, setSignedInFalse} = changeStateSlice.actions;
 export default changeStateSlice.reducer;

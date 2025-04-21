@@ -9,6 +9,7 @@ import { apiCall } from "@/utils/apiCall"
 import { addLotToCard, addOneUnitToCart } from "@/features/cart/cart"
 import { setEnableAddToCart, setCustomerId, setOrgId} from "@/features/general/states"
 import { useDispatch, useSelector } from "react-redux"
+import { base_url } from "@/API"
 export default function SellComponent({setCurrentComponent}){
 const [userTypeNew, setUserTypeNew] = useState(true)
 const [showNextFields, setShowNextFields] = useState(false)
@@ -48,7 +49,7 @@ useEffect(()=>{
 const handleAddCustomer= async()=>{
    console.log("CLicked")
    let org_id = localStorage.getItem("org_id")
-    let url = `http://127.0.0.1:5000/${org_id}/customers/${orderDetails.customer_email}`
+    let url = `${base_url}${org_id}/customers/${orderDetails.customer_email}`
     let response = await apiCall('', "GET", url, "")
     // console.log(response)
     // console.log(userTypeNew)
@@ -112,7 +113,7 @@ const handleAddCustomer= async()=>{
 
 const fetchProduct=async ()=>{
     let org_id = localStorage.getItem("org_id")
-    let url = `http://127.0.0.1:5000/${org_id}/fetch_product/${currentCategory}/${orderDetails.product_name}`
+    let url = `${base_url}/${org_id}/fetch_product/${currentCategory}/${orderDetails.product_name}`
     console.log(url)
     let response = await apiCall("", "GET", url, "" )
     console.log(response)

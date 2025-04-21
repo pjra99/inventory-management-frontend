@@ -1,5 +1,5 @@
 import { apiCall } from "@/utils/apiCall"
-import { useEffect, useState, Suspense } from "react"
+import { useEffect, useState} from "react"
 import Loading from "./Loading"
 import BlackButton from "./buttons/BlackButton"
 import ShoppingCartComponent from "./ShoppingCartComponent"
@@ -7,19 +7,21 @@ import { ShoppingCart } from "lucide-react"
 import { useSelector, useDispatch } from "react-redux";
 import { addLotToCard, removeLotFromCart, addOneUnitToCart, removeOneUnitFromCart, removeFromCart, clearCart } from "@/features/cart/cart";
 import { ProductCard } from "./ProductCard"
+import {base_url} from "@/API"
 
 export default function CatalogueComponent({ setCurrentComponent, backButton }){
   const [products, setProducts] = useState([])
   const [currentCategory, setCurrentCategory]= useState("")
   const [categories, setCategory] = useState([])
   const [showCartComponent, setShowCartComponent] = useState(false)
+  const org_id = useSelector((state)=>state.change.org_id)
   useEffect(() => {
     const org_id = localStorage.getItem("org_id");
 
     setProducts([]);
 
-     apiCall('', "GET", `http://127.0.0.1:5000/${org_id}/products/${currentCategory}`, setProducts);
-     apiCall("", "GET", `http://127.0.0.1:5000/${org_id}/get_product_categories`, setCategory);
+     apiCall('', "GET", `${base_url}/${org_id}/products/${currentCategory}`, setProducts);
+     apiCall("", "GET", `${base_url}/${org_id}/get_product_categories`, setCategory);
   
   }, [currentCategory]);
 

@@ -6,16 +6,18 @@ import Margin from "@/components/Margin";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {setCustomerId, setOrgId} from "@/features/general/states"
-import { useRouter } from "next/navigation";
+import {setCustomerId, setOrgId, setSignedInTrue} from "@/features/general/states"
+import { redirect, useRouter } from "next/navigation";
 import DropdownButton from "@/components/inputs/DropDownButton";
 import RadioButtons from "@/components/inputs/RadioButtons";
 import { validate } from "@/utils/formValidation";
 import { apiCall } from "@/utils/apiCall";
 import { X } from "lucide-react";
+import {base_url} from "@/API"
 export default function SignUp() {
   const [validated, setValidated] = useState(false);
   // const [registeredUsers, setRegisteredUsers] = useState([]);
+  console.log(base_url)
   const [formFields, setFormFields] = useState({
     name: "",
     email: "",
@@ -23,7 +25,9 @@ export default function SignUp() {
     confirm_password: "",
     org_name: "",
     org_type: "",
+    org_address:"",
     role: "",
+    org_id:""
   });
 
   const route = useRouter();
@@ -38,17 +42,29 @@ export default function SignUp() {
 
   }
   const handleSignUp= async()=> {
+    
     if (validate(formFields, validated) ) {
       try{
+        const { name, email, org_name } = formData;
+        const org_payload = { name, email, org_name };
+      let {insertedId} = await apiCall(org_payload, "GET", `${base_url}/organisation`)
+      setFormFields(prevFields=>({...prevFields, org_id: insertedId}))
       let response= await apiCall(
         formFields,
         "post",
-        "http://127.0.0.1:5000/users",
+        `${base_url}/users`,
         ''
       )
 
       if(Object.keys(response).includes('_id')){
         dispatch(setCustomerId(response['_id']))
+        dispatch(setOrgId(insertedId))
+        dispatch(setSignedInTrue())
+        alert("Success!")
+        redirect("/home")
+      }
+      else{
+        alert("Id not present in response!")
       }
     }
       catch(e){
@@ -102,6 +118,7 @@ export default function SignUp() {
           </div>
           <div className="mt-7">
             {validated ? (
+              <>
               <DropdownButton
                 placeholder="Business type"
                 onChange={(e) =>
@@ -115,6 +132,16 @@ export default function SignUp() {
                 value={formFields.org_type}
                 type="text"
               />
+              <InputField placeholder="Orgnaisation address" className="ml-5 text-primaryText" onChange={(e) =>
+                  setFormFields((prevFields) => ({
+                    ...prevFields,
+                    org_address: e.target.value,
+                  }))
+                 }
+                 value ={formFields.org_address}
+                 type="text"
+                 />
+           </>
             ) : (
               <InputField
                 placeholder="Email"
@@ -144,7 +171,7 @@ export default function SignUp() {
                 }
                 // className="text-secondary"
                 value={formFields.role}
-                type="text"
+                // type="text"
               />
             ) : (
               <InputField
@@ -183,7 +210,9 @@ export default function SignUp() {
               Sign In
             </Link>
           </div>
+          {validated? <BlackButton className="mt-5" name="back" onClick={()=>setValidated(false)}/>:null}
           <div className="w-full mt-10">
+            
             {validated ? (
               <BlackButton
                 onClick={async() =>{handleSignUp()}}
@@ -200,6 +229,7 @@ export default function SignUp() {
               />
             )}
           </div>
+
         </section>
         {/* <BlackButton route="/signin" text="Sign In" /> */}
       </div>

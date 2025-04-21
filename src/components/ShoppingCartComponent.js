@@ -4,6 +4,8 @@ import {addOneUnitToCart, removeOneUnitFromCart, removeFromCart, clearCart } fro
 import {toggleAddToCart, setOrgId, setCustomerId} from "@/features/general/states"
 import { useEffect } from "react";
 import { apiCall } from "@/utils/apiCall";
+import { base_url } from "@/API";
+
 export default function ShoppingCartComponent({modifier}){
   const cart = useSelector((state) => state.cart.cart);
   const customer_email = useSelector((state)=> state.change.customer_id)
@@ -25,9 +27,9 @@ export default function ShoppingCartComponent({modifier}){
     }
     // apiCall(Object.values(cart), "POST", url,  "")
     try{
-      let org_id = localStorage.getItem("org_id")
+      let org_id = useSelector(state=>state.change.org_id)
       console.log(customer_email)
-      let url = `http://127.0.0.1:5000/${org_id}/orders/${customer_email}`
+      let url = `${base_url}/${org_id}/orders/${customer_email}`
       let response= await apiCall(Object.values(cart), "POST", url,  "")
       console.log(org_id)
       console.log("Customer_id",customer_email)
