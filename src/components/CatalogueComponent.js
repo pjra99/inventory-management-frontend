@@ -7,22 +7,21 @@ import { ShoppingCart } from "lucide-react"
 import { useSelector, useDispatch } from "react-redux";
 import { addLotToCard, removeLotFromCart, addOneUnitToCart, removeOneUnitFromCart, removeFromCart, clearCart } from "@/features/cart/cart";
 import { ProductCard } from "./ProductCard"
-import { disableAddToCart } from "@/features/general/states"
 
 export default function CatalogueComponent({ setCurrentComponent, backButton }){
   const [products, setProducts] = useState([])
   const [currentCategory, setCurrentCategory]= useState("")
   const [categories, setCategory] = useState([])
   const [showCartComponent, setShowCartComponent] = useState(false)
-  const cart = useSelector((state) => state.cart.cart);
-  const enableAddToCart = useSelector(state=> state.change.enableAddToCart)
-  const dispatch = useDispatch();
-  dispatch(disableAddToCart())
-   useEffect(()=>{
-    const org_id = localStorage.getItem("org_id")
-   apiCall('', "GET", `http://127.0.0.1:5000/${org_id}/products/${currentCategory}`, setProducts)
-   apiCall("", "GET", `http://127.0.0.1:5000/${org_id}/get_product_categories`, setCategory)
-   },[currentCategory])
+  useEffect(() => {
+    const org_id = localStorage.getItem("org_id");
+
+    setProducts([]);
+
+     apiCall('', "GET", `http://127.0.0.1:5000/${org_id}/products/${currentCategory}`, setProducts);
+     apiCall("", "GET", `http://127.0.0.1:5000/${org_id}/get_product_categories`, setCategory);
+  
+  }, [currentCategory]);
 
     return showCartComponent? <ShoppingCartComponent modifier={setShowCartComponent} />:(<div className="right-section md:w-[75%] h-screen bg-primary p-10 overflow-x-scroll">
         <p className="text-3xl"><BlackButton name="<" className={`w-[40px] h-[50px] mr-5 rounded-2xl ${!currentCategory.length==0?`visible`:`hidden`}`} onClick={()=>{

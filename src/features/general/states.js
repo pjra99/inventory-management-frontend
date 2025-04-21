@@ -9,7 +9,7 @@ const changeStateSlice = createSlice({
 name:"change",
 initialState,
 reducers:{
-    enableAddToCart: (state)=>{
+    setEnableAddToCart: (state)=>{
        state.enableAddToCart = true
     },
     disableAddToCart: (state)=>{
@@ -24,5 +24,5 @@ reducers:{
 }
 })
 
-export const {enableAddToCart, disableAddToCart, setCustomerId, setOrgId} = changeStateSlice.actions;
+export const {setEnableAddToCart, disableAddToCart, setCustomerId, setOrgId} = changeStateSlice.actions;
 export default changeStateSlice.reducer;
