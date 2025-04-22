@@ -21,7 +21,7 @@ export default function InventoryComponent({ setCurrentComponent }){
     useEffect(()=>{ 
         const org_id = localStorage.getItem("org_id")
         // console.log(org_id)
-        let url = (filters.category.length>0)?`${base_url}/${org_id}/products/${filters.category}`:`http://127.0.0.1:5000/${org_id}/products`
+        let url = (filters.category.length>0)?`${base_url}/${org_id}/products/${filters.category}`:`${base_url}/${org_id}/products`
         apiCall('', 'GET', url, setProducts)
         apiCall('', "GET", `${base_url}/${org_id}/get_product_categories`, setCategories)
         // console.log(filters)

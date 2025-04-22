@@ -17,7 +17,7 @@ const Navigation = ({ setCurrentComponent }) => {
   const navItems = [
     { name: "Home", icon: Home },
     { name: "Sell", icon: ShoppingCart },
-    { name: "Reporting", icon: BarChart2 },
+    // { name: "Reporting", icon: BarChart2 },
     { name: "Catalogue", icon: BookOpen },
     { name: "Inventory", icon: Package },
     { name: "Customers", icon: Users },
