@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "postbuild": "node ./node_modules/@netlify/next/dist/build.js",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@netlify/next": "^1.4.9",
     "@reduxjs/toolkit": "^2.6.1",
     "chart.js": "^4.4.7",
     "lucide-react": "^0.475.0",
