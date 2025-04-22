@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mui/material": "^5.15.0",
     "@netlify/next": "^1.4.9",
     "@reduxjs/toolkit": "^2.6.1",
     "chart.js": "^4.4.7",
