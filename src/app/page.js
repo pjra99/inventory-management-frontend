@@ -19,5 +19,5 @@ export default function Home() {
     }
   }, [org_id]);
 
-  return null; // You can also return a loader if you want
+  return <h1>Loading!!!</h1>; // You can also return a loader if you want
 }
