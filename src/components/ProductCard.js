@@ -6,6 +6,7 @@ export const ProductCard =({item, addLot, removeLot, addItem, removeItem})=>{
     const cart = useSelector((state) => state.cart.cart);
     const enableAddToCart = useSelector(state=> state.change.enableAddToCart)
     // console.log(enableAddingToCart)
+    console.log(item)
     console.log(enableAddToCart)
    const [unitTypeLot, setUnitTypeLot] = useState(false)
     return <div key={item._id} className="p-4 bg-white m-2 rounded-xl h-50 w-40">
