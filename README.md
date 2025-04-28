@@ -16,16 +16,16 @@ Features of Inventory Management system in brief.
 
 ## TOOLS
 
-##Frontend
+**Frontend**
 - [Next] - A front-end framework
 - [TailwindCSS] - Class based css styling
 - [Redux] - A state management tool
 
-##Backend
+**Backend**
 - [Node] - A runtime environment that executes JavaScript code server-side
 - [Express] - Node.js Framework
 
-##Database
+**Database**
 -[Mongodb] - An open-source, NoSQL document database
 
 ## How to install on your local machine:
