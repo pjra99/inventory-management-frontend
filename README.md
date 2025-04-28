@@ -2,10 +2,9 @@
 
 ## INVENTORY MANAGEMENT SYSTEM.
 
-This Website is deployed 'https://inventory-management-frontend-e8k2-pnmydqa8d-pjra99s-projects.vercel.app
-{ 
+This Website is deployed at https://inventory-management-frontend-e8k2-pnmydqa8d-pjra99s-projects.vercel.app
+
 A streamlined web application designed for small to medium-sized businesses to manage inventory, orders, and customers efficiently. Users can create multi-product orders with detailed unit and lot tracking, browse categorized catalogues, and apply advanced filtering and sorting. Comprehensive customer management and sales reporting (weekly, monthly, yearly) provide valuable insights for business growth.
-}
 
 Features of Inventory Management system in brief.
 
