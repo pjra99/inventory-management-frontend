@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# What is the project?
 
-## Getting Started
+## INVENTORY MANAGEMENT SYSTEM.
 
-First, run the development server:
+This Website is deployed 'https://inventory-management-frontend-e8k2-pnmydqa8d-pjra99s-projects.vercel.app
+{ 
+A streamlined web application designed for small to medium-sized businesses to manage inventory, orders, and customers efficiently. Users can create multi-product orders with detailed unit and lot tracking, browse categorized catalogues, and apply advanced filtering and sorting. Comprehensive customer management and sales reporting (weekly, monthly, yearly) provide valuable insights for business growth.
+}
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Features of Inventory Management system in brief.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- A web application designed to manage small to medium-sized inventories.
+- Users (inventory manager, assistant, or owner) can create orders with multiple products, specifying units and lots, after adding them to a cart.
+- Features include filtering and sorting products, browsing catalogues by categories, and listing all customers.
+- Sales reports show total sales for a week, month, or year.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## TOOLS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#Frontend
+- [Next] - A front-end framework
+- [TailwindCSS] - Class based css styling
+- [Redux] - A state management tool
 
-## Learn More
+#Backend
+- [Node] - A runtime environment that executes JavaScript code server-side
+- [Express] - Node.js Framework
 
-To learn more about Next.js, take a look at the following resources:
+#Database
+-[Mongodb] - An open-source, NoSQL document database
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to install on your local machine:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Install Node.js
+- Run the command 'npm i' in the project folder
+- Use 'npm run dev' to start the project
