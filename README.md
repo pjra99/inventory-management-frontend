@@ -26,7 +26,7 @@ Features of Inventory Management system in brief.
 - [Express] - Node.js Framework
 
 **Database**
--[Mongodb] - An open-source, NoSQL document database
+- [Mongodb] - An open-source, NoSQL document database
 
 ## How to install on your local machine:
 
