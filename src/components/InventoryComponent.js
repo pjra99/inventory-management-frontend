@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState} from "react"
+import { useSelector } from "react-redux";
 import { apiCall } from "@/utils/apiCall"
 import Loading from "./Loading"
 import DropdownButton from "./inputs/DropDownButton"
@@ -18,8 +19,9 @@ export default function InventoryComponent({ setCurrentComponent }){
         "sortingType": "",
         "sortingCol":""
     })
+    // const dispatch = useDispatch();
+    const org_id = useSelector(state => state.change.org_id);
     useEffect(()=>{ 
-        const org_id = localStorage.getItem("org_id")
         // console.log(org_id)
         let url = (filters.category.length>0)?`${base_url}/${org_id}/products/${filters.category}`:`${base_url}/${org_id}/products`
         apiCall('', 'GET', url, setProducts)

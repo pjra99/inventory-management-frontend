@@ -57,7 +57,7 @@ export default function CatalogueComponent({ setCurrentComponent, backButton }) 
               </div>
             ))
           ) : (
-            <div className="flex flex-wrap justify-between">
+            <div className="flex flex-wrap justify-start gap-x-16 gap-y-10 md:pl-10">
               {products.length ? (
                 products.map((key, i) => (
                   <ProductCard

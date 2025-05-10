@@ -35,8 +35,7 @@ export default function SignUp() {
         and go in the 'readme.md' to check the demo credentials.
       </span>
     );
-    
-  })
+  }, [])
   const route = useRouter();
   return (
 <div className="bg-secondary min-h-screen w-screen flex items-center px-4">
@@ -78,6 +77,7 @@ export default function SignUp() {
               }}
               className="w-[100%] text-primaryText"
               value={userCredentials["password"]}
+              type="password"
             />
           </div>
           <div className="text-center text-primaryText mt-2 italic">
