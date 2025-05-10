@@ -16,8 +16,7 @@ import { X } from "lucide-react";
 import {base_url} from "@/API"
 export default function SignUp() {
   const [validated, setValidated] = useState(false);
-  // const [registeredUsers, setRegisteredUsers] = useState([]);
-  console.log(base_url)
+  // console.log(base_url)
   const [formFields, setFormFields] = useState({
     name: "",
     email: "",
@@ -32,14 +31,9 @@ export default function SignUp() {
 
   const route = useRouter();
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   apiCall("", "GET", "http://127.0.0.1:5000/users", setRegisteredUsers);
-  // }, []);
   const  updateSetValidated = async() =>{
-    // e.preventDefault()
     await validate( formFields, validated)? setValidated(true)
     : null;
-
   }
   const handleSignUp= async()=> {
     
@@ -55,9 +49,7 @@ export default function SignUp() {
         `${base_url}/users`,
         ''
       )
-
       if(Object.keys(response).includes('_id')){
-        dispatch(setCustomerId(response['_id']))
         dispatch(setOrgId(insertedId))
         dispatch(setSignedInTrue())
         alert("Success!")

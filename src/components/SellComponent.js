@@ -6,8 +6,8 @@ import RadioButtons from "./inputs/RadioButtons"
 import {ShoppingCart} from "lucide-react"
 import ShoppingCartComponent from "./ShoppingCartComponent"
 import { apiCall } from "@/utils/apiCall"
-import { addLotToCard, addOneUnitToCart } from "@/features/cart/cart"
-import { setEnableAddToCart, setCustomerId, setOrgId} from "@/features/general/states"
+import { addLotToCart, addOneUnitToCart } from "@/features/cart/cart"
+import { setEnableAddToCart, setCustomerEmail, setOrgId} from "@/features/general/states"
 import { useDispatch, useSelector } from "react-redux"
 import { base_url } from "@/API"
 export default function SellComponent({setCurrentComponent}){
@@ -15,8 +15,10 @@ const [userTypeNew, setUserTypeNew] = useState(true)
 const [showNextFields, setShowNextFields] = useState(false)
 const [showCartComponent, setShowCartComponent] = useState(false)
 const [currentCategory,setCurrentCategory] =useState("all")
+const org_id = useSelector((state)=>state.change.org_id)
 const dispatch = useDispatch()
-// const enable_add_to_cart = useSelector(state=>state.change.enableAddToCart)
+// const enable_add_to_cart = useSelector(state=>state.change.enableAddToCart)\
+
 const [categories, setCategories] = useState([
     "all",
     "beauty",
@@ -37,9 +39,9 @@ const [orderDetails, setOrderDetails] = useState({
     customer_email:"",
     business_name:""
 })
-useEffect(()=>{
-console.log(orderDetails)
-}, [orderDetails])
+// useEffect(()=>{
+// console.log(orderDetails)
+// }, [orderDetails])
 
 useEffect(()=>{
   console.log(orderDetails)
@@ -48,10 +50,12 @@ useEffect(()=>{
 
 const handleAddCustomer= async()=>{
    console.log("CLicked")
-   let org_id = localStorage.getItem("org_id")
-    let url = `${base_url}${org_id}/customers/${orderDetails.customer_email}`
+//    let org_id = localStorage.getItem("org_id")
+
+    let url = `${base_url}/${org_id}/customers/${orderDetails.customer_email}`
     let response = await apiCall('', "GET", url, "")
     // console.log(response)
+    console.log(url)
     // console.log(userTypeNew)
 
     if(userTypeNew &&(!orderDetails.customer_name|| !orderDetails.customer_email||!orderDetails.customer_contact|| !orderDetails.business_name||!orderDetails.shipping_address)){
@@ -80,7 +84,7 @@ const handleAddCustomer= async()=>{
     else if(!userTypeNew && orderDetails.customer_email && response.customerRegistered ) {
         console.log("Email", orderDetails.customer_email)
         console.log("Hi")
-        dispatch(setCustomerId(orderDetails.customer_email))
+        dispatch(setCustomerEmail(orderDetails.customer_email))
         alert("Customer Added Successfully!")
     }
 
@@ -104,7 +108,7 @@ const handleAddCustomer= async()=>{
         return;
         }  
     console.log("Email", orderDetails.customer_email)
-    dispatch(setCustomerId(orderDetails.customer_email))
+    dispatch(setCustomerEmail(orderDetails.customer_email))
     alert("New customer Added Successfully!")
     // setShowCartComponent(true)
 }
@@ -125,7 +129,7 @@ const fetchProduct=async ()=>{
         return
     }
     else {
-    dispatch(orderDetails.quantity_type_stock? addLotToCard(response): addOneUnitToCart(response))
+    dispatch(orderDetails.quantity_type_stock? addLotToCart(response): addOneUnitToCart(response))
     alert("Product added to cart")
     setOrderDetails(prev=>({
         ...prev,

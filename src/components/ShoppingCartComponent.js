@@ -2,39 +2,43 @@ import BlackButton from "./buttons/BlackButton";
 import { useDispatch, useSelector } from "react-redux";
 import {addOneUnitToCart, removeOneUnitFromCart, removeFromCart, clearCart } from "@/features/cart/cart";
 import {toggleAddToCart, setOrgId, setCustomerId} from "@/features/general/states"
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import { apiCall } from "@/utils/apiCall";
 import { base_url } from "@/API";
 
 export default function ShoppingCartComponent({modifier}){
   const cart = useSelector((state) => state.cart.cart);
-  const customer_email = useSelector((state)=> state.change.customer_id)
+  const customer_email = useSelector((state)=> state.change.customer_email)
   const productsInCart = Object.values(cart)
+  const org_id = useSelector((state)=>state.change.org_id)
   const dispatch = useDispatch();
-   useEffect(()=>{
-    console.log(Object.values(cart))
-   }, [cart])
+
+  //  useEffect(()=>{
+  //   console.log(Object.values(cart))
+  //  }, [cart])
   const handleCreateOrder = async()=>{
+    console.log("Customer email",customer_email)
     if(cart && cart.length==0){
       alert("No Products to create an order!")
       return
     }
     // console.log("clicked")
-    let customer_id= localStorage.getItem("customer_id")
-    if(!customer_id){
+ 
+    if(!customer_email){
       alert("Please add a customer")
       return
     }
     // apiCall(Object.values(cart), "POST", url,  "")
     try{
-      let org_id = useSelector(state=>state.change.org_id)
+      
       console.log(customer_email)
       let url = `${base_url}/${org_id}/orders/${customer_email}`
-      let response= await apiCall(Object.values(cart), "POST", url,  "")
+      // let response= await apiCall(Object.values(cart), "POST", url,  "")
       console.log(org_id)
       console.log("Customer_id",customer_email)
       alert("Order Successfully created!")
       dispatch(clearCart())
+      localStorage.clear()
     }
     catch(e){
       console.log(e)

@@ -7,10 +7,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiCall } from "@/utils/apiCall";
-import { Authentication } from "@/utils/Authentication";
-import { useSelector, useDispatch } from "react-redux";
-import {setCustomerId, setOrgId, setSignedInTrue} from "@/features/general/states"
+// import { } from "@/utils/Authentication";
+import { useDispatch } from "react-redux";
+import {setOrgId, setSignedInTrue} from "@/features/general/states"
 import {base_url} from "@/API"
+import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function SignUp() {
@@ -19,15 +20,35 @@ export default function SignUp() {
     "email":"",
     "password":""
   })
+  useEffect(()=>{
+    toast(
+      <span>
+        If you want a demo of this app,{' '}
+        <a
+          href="https://github.com/pjra99/inventory-management-frontend"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-blue-500 hover:text-blue-700"
+        >
+          click here
+        </a>{' '}
+        and go in the 'readme.md' to check the demo credentials.
+      </span>
+    );
+    
+  })
   const route = useRouter();
   return (
-    <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
-      <div className="bg-primary sm:h-[calc(100%-30px)] h-[calc(100%-10px)] sm:w-[50%] w-[90%] sm:ml-[20px]">
-        <header className="flex justify-center text-4xl my-20 italic text-primaryText">
+<div className="bg-secondary min-h-screen w-screen flex items-center px-4">
+<div className="bg-primary w-full max-w-2xl p-10 ml-0 sm:ml-10 rounded-lg shadow-md">
+<header className="flex justify-center text-4xl my-20 italic text-primaryText">
           Sign In
         </header>
-        <section className="flex justify-center">
-          <GoogleButton route="/signin" width="50%" />
+        <section className="form flex flex-col mt-10 mb-10 items-center w-full">
+        <ToastContainer />
+          <div className="w-1/2"><GoogleButton  width="100%" onClick={()=>{
+            toast("OOPS, this feature is not functional yet!")
+          }}/></div>
         </section>
         <div className="flex justify-center mt-10">
           <Margin width="50%" text="or" />
@@ -69,9 +90,7 @@ export default function SignUp() {
             <BlackButton
               onClick={async () => {
                 let response = await apiCall("", "GET", `${base_url}/users/${userCredentials.email}/${userCredentials.password}`)
-                localStorage.setItem("org_id",response.org_id)
                  if(response && response.authenticated){ 
-                  dispatch(setCustomerId(response['_id']))
                   dispatch(setOrgId(response.org_id))
                   dispatch(setSignedInTrue())
                   route.push("/home")
