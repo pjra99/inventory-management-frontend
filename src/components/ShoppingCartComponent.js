@@ -27,13 +27,12 @@ export default function ShoppingCartComponent({modifier}){
     if(!customer_email){
       alert("Please add a customer")
       return
-    }
-    // apiCall(Object.values(cart), "POST", url,  "")
+    } 
     try{
       
       console.log(customer_email)
       let url = `${base_url}/${org_id}/orders/${customer_email}`
-      // let response= await apiCall(Object.values(cart), "POST", url,  "")
+      let response= await apiCall(Object.values(cart), "POST", url,  "")
       console.log(org_id)
       console.log("Customer_id",customer_email)
       alert("Order Successfully created!")
