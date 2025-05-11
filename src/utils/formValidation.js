@@ -1,3 +1,4 @@
+import { base_url } from "@/API";
 import { apiCall } from "./apiCall";
 
 export const validate =async ( formFields, validated) => {
@@ -44,7 +45,7 @@ export const validate =async ( formFields, validated) => {
     }
     try {
       console.log(formFields.email)
-      const response = await apiCall("", "GET", `http://127.0.0.1:5000/users/${formFields.email}`);
+      const response = await apiCall("", "GET", `${base_url}/users/${formFields.email}`);
       console.log(response)
       if (response?.emailRegistered) {
         alert("Email already registered");  

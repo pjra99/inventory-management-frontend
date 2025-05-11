@@ -39,7 +39,7 @@ export default function SignUp() {
     
     if (validate(formFields, validated) ) {
       try{
-        const { name, email, org_name } = formData;
+        const { name, email, org_name } = formFields;
         const org_payload = { name, email, org_name };
       let {insertedId} = await apiCall(org_payload, "GET", `${base_url}/organisation`)
       setFormFields(prevFields=>({...prevFields, org_id: insertedId}))
@@ -49,11 +49,15 @@ export default function SignUp() {
         `${base_url}/users`,
         ''
       )
-      if(Object.keys(response).includes('_id')){
-        dispatch(setOrgId(insertedId))
+      console.log(response)
+      if(Object.keys(response).includes('insertedId')){
+        dispatch(setOrgId(response.insertedId))
         dispatch(setSignedInTrue())
         alert("Success!")
-        redirect("/home")
+        route.push("/home")
+      }
+      else if(Object.keys(response).includes('userAlreadyRegistered') && response.userAlreadyRegistered){
+        alert("User Already Registered! Please Sign in.")
       }
       else{
         alert("Id not present in response!")
@@ -66,9 +70,9 @@ export default function SignUp() {
     }
   }
   return (
-    <div className="bg-secondary h-screen w-screen flex sm:justify-start  justify-center items-center">
-      <div className="bg-primary sm:h-[calc(100%-30px)] h-[calc(100%-10px)] sm:w-[50%] w-[90%] sm:ml-[20px]">
-        <div className="flex justify-between my-20 mx-[20%]">
+<div className="bg-secondary min-h-screen w-screen flex items-center px-4">
+<div className="bg-primary w-full max-w-2xl p-10 ml-0 sm:ml-10 rounded-lg shadow-md">
+        <div className="flex justify-between my-20 mx-[10%]">
           {" "}
           <header className="flex justify-center text-4xl  italic text-secondary">
             Sign Up
@@ -78,7 +82,7 @@ export default function SignUp() {
             <GoogleButton route="/signin" width="100%" />
           </section>
         </div>
-        <section className="form flex-col mt-10 mb-10 ml-[25%] items-center w-1/2">
+        <section className="form flex-col mt-10 mb-10 md:pl-[20%] items-center ">
           <div>
             {validated ? (
               <InputField
@@ -90,7 +94,7 @@ export default function SignUp() {
                   }))
                 }
                 value={formFields.org_name}
-                 className="text-primaryText"
+                 className="text-primaryText w-2/3"
                  type="text"
               />
             ) : (
@@ -103,7 +107,7 @@ export default function SignUp() {
                   }))
                 }
                 value={formFields.name}
-                className="text-primaryText"
+                className="text-primaryText w-2/3"
                 type="text"
               />
             )}
@@ -144,7 +148,7 @@ export default function SignUp() {
                   }))
                   
                 }
-                 className="text-primaryText"
+                 className="text-primaryText w-2/3"
                 value={formFields.email}
                 type="text"
               />
@@ -174,9 +178,9 @@ export default function SignUp() {
                     password: e.target.value,
                   }))
                 }
-                 className="text-primaryText"
+                 className="text-primaryText w-2/3"
                 value={formFields.password}
-                type="text"
+                type="password"
               />
             )}
           </div>
@@ -190,13 +194,13 @@ export default function SignUp() {
                     confirm_password: e.target.value,
                   }))
                 }
-                 className="text-primaryText"
+                 className="text-primaryText w-2/3"
                 value={formFields.confirm_password}
-                type="text"
+                type="password"
               />
             )}
           </div>
-          <div className="text-center mt-2 italic text-secondary">
+          <div className="ml-5 mt-2 italic text-secondary">
             Already registered?{" "}
             <Link href="/signin" className="text-link">
               Sign In
