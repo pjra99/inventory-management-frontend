@@ -148,8 +148,8 @@ export default function InventoryComponent({ setCurrentComponent }){
                     <div className="w-[10%]">{key.selling_price} Rs</div>
                     <div className="w-[10%]">{key.discount_percentage}%</div>   
                     <div className="w-[20%]">{key.description}</div>   
-                    <div className="w-[10%]">{key.min_lot_size}</div>   
-                    <div className="w-[10%]">{Math.floor(key.availability/key.min_lot_size)}</div>   
+                    <div className="w-[10%]">{Math.floor(key.min_lot_size)}</div>   
+                    <div className="w-[10%]">{((key.availability/key.min_lot_size)<1 && key.availability>0)?`${key.availability} units`:Math.floor(key.availability/key.min_lot_size)}</div>   
                 </div>
               ))
             ) : (
